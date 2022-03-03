@@ -1,0 +1,35 @@
+---
+title: Div横向排列和出现横向滚动条
+date: 2019-04-30 13:26:42
+tags: css
+categories: css
+---
+
+##### 出现横向滚动条
+
+核心思路是使用`white-space` 这个属性防止父容器内容换行，例子如下:
+
+~~~css
+// html
+<ul>
+	<li></li>
+	<li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+// css
+ul{
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+ul li{
+  display:inline-block;
+  box-sizing: border-box;
+}
+
+~~~
+
