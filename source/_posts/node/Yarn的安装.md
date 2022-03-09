@@ -2,7 +2,7 @@
 title: Yarn的安装
 date: 2019-05-22 13:29:54
 tags: install
-categories: Centos7
+categories: yarn
 ---
 
 ##### INSTALL YARN

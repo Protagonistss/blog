@@ -2,7 +2,7 @@
 title: nvm
 date: 2020-02-13 22:35:24
 tags: install
-categories: node
+categories: nvm
 ---
 
 ### NVM 安装
