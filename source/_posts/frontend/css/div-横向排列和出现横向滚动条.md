@@ -9,8 +9,7 @@ categories: css
 
 核心思路是使用`white-space` 这个属性防止父容器内容换行，例子如下:
 
-~~~css
-// html
+~~~html
 <ul>
 	<li></li>
 	<li></li>
@@ -19,7 +18,7 @@ categories: css
   <li></li>
 </ul>
 
-// css
+<style>
 ul{
   width: 100%;
   overflow-x: scroll;
@@ -30,6 +29,7 @@ ul li{
   display:inline-block;
   box-sizing: border-box;
 }
+</style>
 
 ~~~
 

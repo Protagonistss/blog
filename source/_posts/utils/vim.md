@@ -1,8 +1,8 @@
 ---
 title: vim
 date: 2021-01-18 23:41:35
-tags: vim
-categories: utils
+tags: helper
+categories: vim
 ---
 
 在命令模式下

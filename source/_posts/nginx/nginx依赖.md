@@ -1,7 +1,7 @@
 ---
 title: nginx依赖
 date: 2019-10-11 11:11:04
-tags: nginx
+tags: install
 categories: nginx
 ---
 

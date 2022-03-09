@@ -1,8 +1,8 @@
 ---
 title: 环境搭建
 date: 2020-01-17 10:38:05
-tags: install
-categories: OPS
+tags: env
+categories: linux
 ---
 
 ### 一、UBUNTU18.04 安装

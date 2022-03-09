@@ -1,7 +1,7 @@
 ---
 title: Rabbitmq安装和使用
 date: 2021-01-16 12:50:41
-tags: python&&rabbit
+tags: rabbit
 categories: rabbit
 ---
 

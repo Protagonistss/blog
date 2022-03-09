@@ -1,7 +1,7 @@
 ---
 title: Bind、Call、Apply
 date: 2020-01-08 14:52:54
-tags: bind&&call&&apply
+tags: jsApi
 categories: javascript
 ---
 

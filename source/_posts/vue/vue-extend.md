@@ -2,7 +2,7 @@
 title: Vue-Extend总结
 date: 2020-01-02 10:50:39
 tags: vue
-categories: Vue
+categories: vue
 ---
 
 #### 一、Vue-extend

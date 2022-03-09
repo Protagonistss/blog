@@ -7,7 +7,7 @@ categories: docker
 
 ### Docker 命令
 
-- 获镜像
+- 获取镜像
   - docker pull 镜像名
 - 使用tag命令添加镜像标签
   - docker tag ubuntu:latest myubuntu:latest
@@ -16,6 +16,8 @@ categories: docker
   - docker attach 使用该命令 进入容器时候,当多个窗口同时attach到同一个容器中的时候,所有的窗口都会同步显示,所以一个窗口进行阻塞操作的时候,另外的窗口中的容器也会阻塞,而且值得一提的是,当使用exit退出容器的时候,容器会关掉。前提是容器没有使用-d参数后台运行。
   - docker exec -it 容器名 /bin/bash 这种方式与attach相反。
 - docker ps -qa 查看所有容器的ID
+
+<!--more-->
 
 ##### 导入和导出容器
 

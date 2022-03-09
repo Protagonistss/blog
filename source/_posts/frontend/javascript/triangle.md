@@ -1,7 +1,7 @@
 ---
 title: 队列
 date: 2019-12-27 18:03:19
-tags: Queue
+tags: arithmetic
 categories: javascript
 ---
 

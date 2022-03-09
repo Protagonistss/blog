@@ -1,8 +1,8 @@
 ---
 title: 架构
 date: 2020-01-01 01:06:05
-tags: framework
-categories: Vue
+tags: vue
+categories: vue
 ---
 
 #### Vue组件化

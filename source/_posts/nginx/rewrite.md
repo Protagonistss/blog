@@ -1,7 +1,7 @@
 ---
 title: Rewrite总结
 date: 2019-06-01 20:06:54
-tags: rewrite
+tags: helper
 categories: nginx
 ---
 

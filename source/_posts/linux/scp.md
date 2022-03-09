@@ -1,7 +1,7 @@
 ---
-title: scp
+title: SCP使用示例
 date: 2019-06-21 15:40:07
-tags: scp
+tags: helper
 categories: linux
 ---
 
