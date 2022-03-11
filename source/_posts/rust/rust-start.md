@@ -23,7 +23,11 @@ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 `rustup self uninstall`
 
-# 四、vscode插件
+# 四、更新
+
+`rustup update`
+
+# 五、vscode插件
 
 - Better TOML
 - Error Lens 展示错误信息
