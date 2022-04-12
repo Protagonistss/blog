@@ -97,7 +97,7 @@ module:{
 #### 6、安装预编器sass
 
 ```bash
-yarn add sass-loader node-sass -D
+yarn add sass-loader sass -D
 ```
 
 ```javascript
@@ -113,7 +113,7 @@ yarn add sass-loader node-sass -D
 
 
 
-#### 7、抽取cs
+#### 7、抽取css
 
 ```bash
 yarn add mini-css-extract-plugin -D
@@ -140,7 +140,37 @@ plugins:[
 ]
 ```
 
-#### 8、识别vue文件
+#### 8、兼容css
+
+```bash
+yarn add postcss postcss-loader postcss-preset-env -D
+```
+
+```javascript
+{
+  test: /\.scss$/,
+  use: [
+    MiniCssExtractPlugin.loader,
+    "css-loader",
+    "sass-loader",
+    {
+      loader: 'postcss-loader',
+      options: {
+        postcssOptions: {
+          plugins: [
+            [
+              "postcss-preset-env",
+              { browsers: ['last 2 versions', 'ie 8', '>1%'] }
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+#### 9、识别vue文件
 
 ```bash
 yarn add vue-loader vue-template-compiler vue-style-loader -D
