@@ -1,0 +1,249 @@
+---
+// 搜索模态框组件
+---
+
+<div id="search-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+  <div class="flex min-h-screen items-center justify-center p-4">
+    <!-- 背景遮罩 -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" id="search-backdrop"></div>
+    
+    <!-- 搜索框 -->
+    <div class="relative w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+      <!-- 搜索输入框 -->
+      <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="relative">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="搜索文章、标签、分类..."
+            class="w-full px-4 py-3 pl-12 pr-4 text-lg bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            autocomplete="off"
+          />
+          <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+          <button
+            id="search-close"
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- 搜索结果 -->
+      <div class="max-h-96 overflow-y-auto" id="search-results">
+        <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <p>输入关键词开始搜索...</p>
+        </div>
+      </div>
+      
+      <!-- 搜索提示 -->
+      <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-b-2xl">
+        <div class="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400">
+          <span class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded">按 Enter 搜索</span>
+          <span class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded">按 Esc 关闭</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 搜索功能实现
+  class SearchModal {
+    constructor() {
+      this.modal = document.getElementById('search-modal');
+      this.input = document.getElementById('search-input');
+      this.results = document.getElementById('search-results');
+      this.backdrop = document.getElementById('search-backdrop');
+      this.closeBtn = document.getElementById('search-close');
+      
+      this.posts = [];
+      this.isOpen = false;
+      
+      this.init();
+    }
+    
+    async init() {
+      // 加载文章数据
+      await this.loadPosts();
+      
+      // 绑定事件
+      this.bindEvents();
+    }
+    
+    async loadPosts() {
+      try {
+        // 这里需要从 API 获取文章数据
+        // 暂时使用静态数据，实际项目中应该从 API 获取
+        const response = await fetch('/api/posts.json');
+        if (response.ok) {
+          this.posts = await response.json();
+        } else {
+          // 如果 API 不存在，使用备用数据
+          this.posts = await this.getFallbackPosts();
+        }
+      } catch (error) {
+        console.warn('无法加载文章数据，使用备用数据');
+        this.posts = await this.getFallbackPosts();
+      }
+    }
+    
+    async getFallbackPosts() {
+      // 从页面中提取文章信息作为备用数据
+      const postElements = document.querySelectorAll('[data-post-title]');
+      const posts = [];
+      
+      postElements.forEach(element => {
+        const title = element.getAttribute('data-post-title');
+        const slug = element.getAttribute('data-post-slug');
+        const description = element.getAttribute('data-post-description') || '';
+        const tags = element.getAttribute('data-post-tags')?.split(',') || [];
+        const categories = element.getAttribute('data-post-categories')?.split(',') || [];
+        
+        if (title && slug) {
+          posts.push({
+            title,
+            slug,
+            description,
+            tags,
+            categories,
+            content: '' // 实际项目中应该包含文章内容
+          });
+        }
+      });
+      
+      return posts;
+    }
+    
+    bindEvents() {
+      // 打开搜索框
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          this.open();
+        }
+      });
+      
+      // 搜索按钮点击
+      document.querySelectorAll('[data-search-trigger]').forEach(btn => {
+        btn.addEventListener('click', () => this.open());
+      });
+      
+      // 关闭搜索框
+      this.closeBtn.addEventListener('click', () => this.close());
+      this.backdrop.addEventListener('click', () => this.close());
+      
+      // 搜索输入
+      this.input.addEventListener('input', (e) => {
+        this.search(e.target.value);
+      });
+      
+      // 键盘事件
+      this.input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.close();
+        } else if (e.key === 'Enter') {
+          const firstResult = this.results.querySelector('a');
+          if (firstResult) {
+            firstResult.click();
+          }
+        }
+      });
+    }
+    
+    open() {
+      this.modal.classList.remove('hidden');
+      this.input.focus();
+      this.isOpen = true;
+      document.body.style.overflow = 'hidden';
+    }
+    
+    close() {
+      this.modal.classList.add('hidden');
+      this.input.value = '';
+      this.results.innerHTML = this.getEmptyState();
+      this.isOpen = false;
+      document.body.style.overflow = '';
+    }
+    
+    search(query) {
+      if (!query.trim()) {
+        this.results.innerHTML = this.getEmptyState();
+        return;
+      }
+      
+      const results = this.posts.filter(post => {
+        const searchText = `${post.title} ${post.description} ${post.tags.join(' ')} ${post.categories.join(' ')}`.toLowerCase();
+        return searchText.includes(query.toLowerCase());
+      });
+      
+      this.renderResults(results, query);
+    }
+    
+    renderResults(results, query) {
+      if (results.length === 0) {
+        this.results.innerHTML = `
+          <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+            <svg class="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.709"/>
+            </svg>
+            <p>没有找到相关文章</p>
+            <p class="text-sm mt-2">尝试使用其他关键词</p>
+          </div>
+        `;
+        return;
+      }
+      
+      const resultsHtml = results.map(post => `
+        <a href="/posts/${post.slug}" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-600 last:border-b-0">
+          <div class="flex items-start gap-3">
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-900 dark:text-white mb-1">${this.highlightText(post.title, query)}</h3>
+              ${post.description ? `<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${this.highlightText(post.description, query)}</p>` : ''}
+              <div class="flex flex-wrap gap-1">
+                ${post.categories.map(cat => `<span class="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded text-xs">${cat}</span>`).join('')}
+                ${post.tags.map(tag => `<span class="px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded text-xs">#${tag}</span>`).join('')}
+              </div>
+            </div>
+            <svg class="w-5 h-5 text-gray-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </a>
+      `).join('');
+      
+      this.results.innerHTML = resultsHtml;
+    }
+    
+    highlightText(text, query) {
+      if (!query) return text;
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+    }
+    
+    getEmptyState() {
+      return `
+        <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <p>输入关键词开始搜索...</p>
+        </div>
+      `;
+    }
+  }
+  
+  // 初始化搜索功能
+  document.addEventListener('DOMContentLoaded', () => {
+    new SearchModal();
+  });
+</script>

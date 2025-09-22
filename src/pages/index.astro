@@ -66,7 +66,14 @@ const tags = [...new Set(allPosts.flatMap(post => post.data.tags))];
       </div>
       <div class="grid gap-8 md:grid-cols-2">
         {posts.slice(0, 6).map((post, index) => (
-          <article class="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-1">
+          <article 
+            class="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-1"
+            data-post-title={post.data.title}
+            data-post-slug={post.slug}
+            data-post-description={post.data.description || ''}
+            data-post-tags={post.data.tags.join(',')}
+            data-post-categories={post.data.categories.join(',')}
+          >
             <a href={`/posts/${post.slug}`} class="block">
               <div class="p-6">
                 <div class="flex items-start justify-between mb-4">
