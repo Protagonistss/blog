@@ -1,0 +1,54 @@
+---
+title: "知识点总结"
+description: ""
+pubDate: "2019-06-01T20:21:06.000Z"
+tags: ["centos"]
+categories: ["linux"]
+draft: false
+---
+
+
+##### 知识点总结
+
+路由追踪
+
+```bash
+mtr
+traceroute
+```
+
+查看域名信息
+
+```bash
+nslookup
+```
+
+查看端口状态
+
+```bash
+telnet protagonisths.com 80
+```
+
+网络抓包
+
+```bash
+# -i any 所有的网卡的数据包
+# -n 如果有域名的解析成ip
+# port 指定端口
+# host 捕获某个主机
+# -w 保存到某个文件
+tcpdump -i any -n host [example] and port 80 -w /tmp/temp.txt
+```
+
+查看服务器监听地址
+
+```bash
+# -n 解析域名成ip
+# t tcp协议
+# p 进程
+# l tcp的状态 listen
+netstat -ntpl
+# 或
+ss -ntpl
+```
+

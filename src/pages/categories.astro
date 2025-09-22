@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+const categories = [...new Set(allPosts.flatMap(post => post.data.categories))];
+
+// 统计每个分类的文章数量
+const categoryStats = categories.map(category => {
+  const count = allPosts.filter(post => 
+    post.data.categories.includes(category) && !post.data.draft
+  ).length;
+  return { category, count };
+}).sort((a, b) => b.count - a.count);
+---
+
+<Layout title="分类" description="所有文章分类">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        文章分类
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        共 {categories.length} 个分类
+      </p>
+    </header>
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {categoryStats.map(({ category, count }) => (
+        <a 
+          href={`/categories/${category}`}
+          class="block p-6 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow"
+        >
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            {category}
+          </h2>
+          <p class="text-gray-600 dark:text-gray-400">
+            {count} 篇文章
+          </p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

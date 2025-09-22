@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+const tags = [...new Set(allPosts.flatMap(post => post.data.tags))];
+
+// 统计每个标签的文章数量
+const tagStats = tags.map(tag => {
+  const count = allPosts.filter(post => 
+    post.data.tags.includes(tag) && !post.data.draft
+  ).length;
+  return { tag, count };
+}).sort((a, b) => b.count - a.count);
+---
+
+<Layout title="标签" description="所有文章标签">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        文章标签
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        共 {tags.length} 个标签
+      </p>
+    </header>
+
+    <div class="flex flex-wrap gap-3">
+      {tagStats.map(({ tag, count }) => (
+        <a 
+          href={`/tags/${tag}`}
+          class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-800 dark:hover:text-primary-200 transition-colors"
+        >
+          #{tag}
+          <span class="ml-2 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-xs">
+            {count}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
