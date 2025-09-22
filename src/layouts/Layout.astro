@@ -45,19 +45,19 @@ const siteDescription = "不迁怒，不二过。";
           
           <!-- 桌面端导航 -->
           <div class="hidden md:flex items-center space-x-8">
-            <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+            <a href="/" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="home">
               首页
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+            <a href="/categories" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="categories">
               分类
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <a href="/tags" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+            <a href="/tags" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="tags">
               标签
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <a href="/archives" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+            <a href="/archives" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="archives">
               归档
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
@@ -88,16 +88,16 @@ const siteDescription = "不迁怒，不二过。";
         <!-- 移动端菜单 -->
         <div class="md:hidden hidden border-t border-gray-200 dark:border-gray-700 py-4" id="mobile-menu">
           <div class="flex flex-col space-y-4">
-            <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
+            <a href="/" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="home">
               首页
             </a>
-            <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
+            <a href="/categories" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="categories">
               分类
             </a>
-            <a href="/tags" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
+            <a href="/tags" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="tags">
               标签
             </a>
-            <a href="/archives" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
+            <a href="/archives" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="archives">
               归档
             </a>
           </div>
@@ -129,6 +129,64 @@ const siteDescription = "不迁怒，不二过。";
             mobileMenu.classList.toggle('hidden');
           });
         }
+        
+        // 导航链接选中状态
+        function updateActiveNavLink() {
+          const currentPath = window.location.pathname;
+          const navLinks = document.querySelectorAll('.nav-link');
+          
+          navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            const page = link.getAttribute('data-page');
+            
+            // 移除所有选中状态
+            link.classList.remove('text-primary-600', 'dark:text-primary-400');
+            link.classList.add('text-gray-600', 'dark:text-gray-300');
+            
+            // 检查是否匹配当前页面
+            let isActive = false;
+            
+            if (page === 'home' && (currentPath === '/' || currentPath === '')) {
+              isActive = true;
+            } else if (page === 'categories' && currentPath.startsWith('/categories')) {
+              isActive = true;
+            } else if (page === 'tags' && currentPath.startsWith('/tags')) {
+              isActive = true;
+            } else if (page === 'archives' && currentPath.startsWith('/archives')) {
+              isActive = true;
+            }
+            
+            if (isActive) {
+              link.classList.remove('text-gray-600', 'dark:text-gray-300');
+              link.classList.add('text-primary-600', 'dark:text-primary-400');
+              
+              // 为桌面端添加底部指示器
+              if (window.innerWidth >= 768) {
+                const indicator = link.querySelector('span');
+                if (indicator) {
+                  indicator.classList.remove('w-0');
+                  indicator.classList.add('w-full');
+                }
+              }
+            } else {
+              // 移除底部指示器
+              const indicator = link.querySelector('span');
+              if (indicator) {
+                indicator.classList.remove('w-full');
+                indicator.classList.add('w-0');
+              }
+            }
+          });
+        }
+        
+        // 页面加载时更新选中状态
+        updateActiveNavLink();
+        
+        // 监听路由变化（如果使用 SPA 路由）
+        window.addEventListener('popstate', updateActiveNavLink);
+        
+        // 监听窗口大小变化，重新计算选中状态
+        window.addEventListener('resize', updateActiveNavLink);
       });
     </script>
   </body>
