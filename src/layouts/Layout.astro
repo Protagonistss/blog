@@ -32,23 +32,67 @@ const siteDescription = "不迁怒，不二过。";
     {image && <meta name="twitter:image" content={image} />}
   </head>
   <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <header class="border-b border-gray-200 dark:border-gray-700">
-      <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-6">
-          <a href="/" class="text-2xl font-bold text-primary-600 dark:text-primary-400">
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+          <a href="/" class="flex items-center gap-2 text-2xl font-bold text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors">
+            <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-blue-500 rounded-lg flex items-center justify-center">
+              <span class="text-white font-bold text-sm">P</span>
+            </div>
             {siteTitle}
           </a>
-          <div class="flex space-x-8">
-            <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
+          
+          <!-- 桌面端导航 -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+              首页
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
+            <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+              分类
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
+            <a href="/tags" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+              标签
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
+            <a href="/archives" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group">
+              归档
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
+          </div>
+          
+          <!-- 搜索和移动端菜单按钮 -->
+          <div class="flex items-center gap-4">
+            <!-- 搜索按钮 -->
+            <button class="p-2 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </button>
+            
+            <!-- 移动端菜单按钮 -->
+            <button class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" id="mobile-menu-button">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden border-t border-gray-200 dark:border-gray-700 py-4" id="mobile-menu">
+          <div class="flex flex-col space-y-4">
+            <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
               首页
             </a>
-            <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
+            <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
               分类
             </a>
-            <a href="/tags" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
+            <a href="/tags" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
               标签
             </a>
-            <a href="/archives" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
+            <a href="/archives" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
               归档
             </a>
           </div>
@@ -65,5 +109,19 @@ const siteDescription = "不迁怒，不二过。";
         </div>
       </div>
     </footer>
+    
+    <script>
+      // 移动端菜单切换
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+          });
+        }
+      });
+    </script>
   </body>
 </html>

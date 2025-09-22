@@ -15,28 +15,64 @@ const categoryStats = categories.map(category => {
 ---
 
 <Layout title="分类" description="所有文章分类">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- 页面头部 -->
+    <header class="text-center mb-12">
+      <div class="inline-flex items-center px-4 py-2 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium mb-6">
+        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+        </svg>
         文章分类
+      </div>
+      <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        探索分类
       </h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        共 {categories.length} 个分类
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        按技术领域分类浏览文章，快速找到您感兴趣的内容
       </p>
+      <div class="mt-6 text-sm text-gray-500 dark:text-gray-500">
+        共 {categories.length} 个分类，{allPosts.length} 篇文章
+      </div>
     </header>
 
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {categoryStats.map(({ category, count }) => (
+    <!-- 分类网格 -->
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {categoryStats.map(({ category, count }, index) => (
         <a 
           href={`/categories/${category}`}
-          class="block p-6 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow"
+          class="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-1"
         >
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            {category}
-          </h2>
-          <p class="text-gray-600 dark:text-gray-400">
-            {count} 篇文章
-          </p>
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-1">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors mb-2">
+                  {category}
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                  {count} 篇文章
+                </p>
+              </div>
+              <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-blue-500 rounded-xl flex items-center justify-center">
+                <span class="text-white font-bold text-lg">
+                  {category.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span>查看文章</span>
+              </div>
+              <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
         </a>
       ))}
     </div>

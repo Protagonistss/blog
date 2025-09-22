@@ -15,26 +15,72 @@ const tagStats = tags.map(tag => {
 ---
 
 <Layout title="标签" description="所有文章标签">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- 页面头部 -->
+    <header class="text-center mb-12">
+      <div class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium mb-6">
+        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"/>
+        </svg>
         文章标签
+      </div>
+      <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        热门标签
       </h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        共 {tags.length} 个标签
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        通过标签快速发现相关文章，探索技术话题的深度内容
       </p>
+      <div class="mt-6 text-sm text-gray-500 dark:text-gray-500">
+        共 {tags.length} 个标签，{allPosts.length} 篇文章
+      </div>
     </header>
 
-    <div class="flex flex-wrap gap-3">
+    <!-- 标签云 -->
+    <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-8 mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">标签云</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        {tagStats.map(({ tag, count }) => {
+          const size = count > 5 ? 'text-lg' : count > 3 ? 'text-base' : 'text-sm';
+          const opacity = count > 5 ? 'opacity-100' : count > 3 ? 'opacity-80' : 'opacity-60';
+          return (
+            <a 
+              href={`/tags/${tag}`}
+              class={`group inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl text-sm font-medium hover:bg-primary-500 hover:text-white dark:hover:bg-primary-500 dark:hover:text-white transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md ${size} ${opacity}`}
+            >
+              #{tag}
+              <span class="ml-2 px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded-lg text-xs group-hover:bg-white/20 group-hover:text-white">
+                {count}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- 标签列表 -->
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {tagStats.map(({ tag, count }) => (
         <a 
           href={`/tags/${tag}`}
-          class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-800 dark:hover:text-primary-200 transition-colors"
+          class="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-1"
         >
-          #{tag}
-          <span class="ml-2 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-xs">
-            {count}
-          </span>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              #{tag}
+            </h3>
+            <div class="w-8 h-8 bg-gradient-to-br from-gray-500 to-gray-600 rounded-lg flex items-center justify-center">
+              <span class="text-white font-bold text-sm">{count}</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <p class="text-gray-600 dark:text-gray-400 text-sm">
+              {count} 篇文章
+            </p>
+            <svg class="w-4 h-4 text-gray-400 group-hover:text-primary-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
         </a>
       ))}
     </div>
