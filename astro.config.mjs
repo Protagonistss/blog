@@ -8,6 +8,10 @@ export default defineConfig({
   base: '/',
   output: 'static',
   trailingSlash: 'never',
+  server: {
+    port: 3000,
+    host: true
+  },
   markdown: {
     shikiConfig: {
       theme: 'github-dark',
