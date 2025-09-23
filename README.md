@@ -1,4 +1,4 @@
-# protagonistss 个人博客
+# Protagonistss 个人博客
 
 一个基于 Astro 构建的现代化个人技术博客，专注于分享技术文章和开发经验。
 
