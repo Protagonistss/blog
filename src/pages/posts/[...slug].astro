@@ -13,9 +13,13 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content, remarkPluginFrontmatter } = await post.render();
+
+// 获取原始内容用于计算阅读时间
+const content = post.body;
+
 ---
 
-<PostLayout frontmatter={post.data}>
+<PostLayout frontmatter={post.data} content={content}>
   <Content />
 </PostLayout>

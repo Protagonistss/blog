@@ -4,9 +4,34 @@ import { getCollection } from 'astro:content';
 
 export interface Props {
   frontmatter: any;
+  content?: string;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, content } = Astro.props;
+
+// 计算阅读时间（基于中文阅读速度）
+function calculateReadingTime(content: string): number {
+  // 移除HTML标签和Markdown语法
+  const text = content
+    .replace(/<[^>]*>/g, '') // 移除HTML标签
+    .replace(/[#*`_~\[\]()]/g, '') // 移除Markdown语法
+    .replace(/\s+/g, ' ') // 合并多个空格
+    .trim();
+  
+  // 中文字符数
+  const chineseChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+  // 英文单词数（按空格分割）
+  const englishWords = text.split(/\s+/).filter(word => /[a-zA-Z]/.test(word)).length;
+  
+  // 中文阅读速度：300字/分钟，英文阅读速度：200词/分钟
+  const chineseTime = chineseChars / 300;
+  const englishTime = englishWords / 200;
+  
+  return Math.ceil(chineseTime + englishTime);
+}
+
+// 计算阅读时间
+const readingTime = content ? calculateReadingTime(content) : 5;
 const allPosts = await getCollection('posts');
 const relatedPosts = allPosts
   .filter(post => 
@@ -49,7 +74,7 @@ const relatedPosts = allPosts
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              <span>约 {Math.ceil(Math.random() * 10) + 5} 分钟阅读</span>
+              <span>约 {readingTime} 分钟阅读</span>
             </div>
           </div>
           
@@ -98,7 +123,7 @@ const relatedPosts = allPosts
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-600 dark:text-gray-400">阅读时间</span>
-                <span class="text-gray-900 dark:text-white">约 {Math.ceil(Math.random() * 10) + 5} 分钟</span>
+                <span class="text-gray-900 dark:text-white">约 {readingTime} 分钟</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-600 dark:text-gray-400">分类</span>
@@ -114,22 +139,25 @@ const relatedPosts = allPosts
           <!-- 目录 -->
           <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">目录</h3>
-            <div class="text-sm text-gray-600 dark:text-gray-400">
-              <p>目录功能开发中...</p>
+            <div id="toc" class="text-sm">
+              <div class="text-gray-600 dark:text-gray-400">
+                <p>正在生成目录...</p>
+              </div>
             </div>
           </div>
           
           <!-- 分享按钮 -->
           <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">分享文章</h3>
-            <div class="flex gap-2">
-              <button class="flex-1 px-3 py-2 bg-primary-500 text-white rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors">
-                复制链接
-              </button>
-              <button class="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                分享
-              </button>
-            </div>
+            <button 
+              id="copyLinkBtn"
+              class="w-full px-4 py-3 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              复制链接
+            </button>
           </div>
         </div>
       </aside>
@@ -154,4 +182,114 @@ const relatedPosts = allPosts
       </section>
     )}
   </article>
+
+  <script>
+    // 生成目录功能
+    function generateTOC() {
+      const tocContainer = document.getElementById('toc');
+      const headings = document.querySelectorAll('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+      
+      if (headings.length === 0) {
+        tocContainer.innerHTML = '<div class="text-gray-600 dark:text-gray-400"><p>暂无目录</p></div>';
+        return;
+      }
+
+      let tocHTML = '<nav class="space-y-1">';
+      let currentLevel = 0;
+      
+      headings.forEach((heading, index) => {
+        const level = parseInt(heading.tagName.charAt(1));
+        const id = `heading-${index}`;
+        heading.id = id;
+        
+        const indent = level > 2 ? `ml-${(level - 2) * 4}` : '';
+        const text = heading.textContent.trim();
+        
+        if (level > currentLevel) {
+          currentLevel = level;
+        } else if (level < currentLevel) {
+          currentLevel = level;
+        }
+        
+        tocHTML += `
+          <a 
+            href="#${id}" 
+            class="block py-1 px-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded transition-colors ${indent}"
+            data-level="${level}"
+          >
+            ${text}
+          </a>
+        `;
+      });
+      
+      tocHTML += '</nav>';
+      tocContainer.innerHTML = tocHTML;
+      
+      // 添加滚动监听
+      addScrollListener();
+    }
+
+    // 添加滚动监听，高亮当前章节
+    function addScrollListener() {
+      const tocLinks = document.querySelectorAll('#toc a');
+      const headings = document.querySelectorAll('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+      
+      function updateActiveTOC() {
+        let current = '';
+        headings.forEach(heading => {
+          const rect = heading.getBoundingClientRect();
+          if (rect.top <= 100) {
+            current = heading.id;
+          }
+        });
+        
+        tocLinks.forEach(link => {
+          link.classList.remove('text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20');
+          }
+        });
+      }
+      
+      window.addEventListener('scroll', updateActiveTOC);
+      updateActiveTOC(); // 初始调用
+    }
+
+    // 分享功能
+    function initShareButtons() {
+      const copyLinkBtn = document.getElementById('copyLinkBtn');
+      const articleUrl = window.location.href;
+      
+      // 复制链接功能
+      copyLinkBtn?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(articleUrl);
+          const originalText = copyLinkBtn.innerHTML;
+          copyLinkBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            已复制
+          `;
+          copyLinkBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+          copyLinkBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+          
+          setTimeout(() => {
+            copyLinkBtn.innerHTML = originalText;
+            copyLinkBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+            copyLinkBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+          }, 2000);
+        } catch (err) {
+          console.error('复制失败:', err);
+          alert('复制失败，请手动复制链接');
+        }
+      });
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      generateTOC();
+      initShareButtons();
+    });
+  </script>
 </Layout>
