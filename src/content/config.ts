@@ -11,6 +11,8 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     categories: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    // 添加技术栈分类
+    techStack: z.string().optional(),
   }),
 });
 

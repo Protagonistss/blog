@@ -1,17 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getCategoryStats } from '../utils/posts';
 
 const allPosts = await getCollection('posts');
-const categories = [...new Set(allPosts.flatMap(post => post.data.categories))];
+const publishedPosts = allPosts.filter(post => !post.data.draft);
+const categories = [...new Set(publishedPosts.flatMap(post => post.data.categories))];
 
-// 统计每个分类的文章数量
-const categoryStats = categories.map(category => {
-  const count = allPosts.filter(post => 
-    post.data.categories.includes(category) && !post.data.draft
-  ).length;
-  return { category, count };
-}).sort((a, b) => b.count - a.count);
+// 获取分类统计
+const categoryStats = getCategoryStats(publishedPosts);
 ---
 
 <Layout title="分类" description="所有文章分类">

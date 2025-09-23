@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { formatDate, formatDateISO } from '../utils/date';
 
 const allPosts = await getCollection('posts');
 const posts = allPosts
@@ -45,8 +46,8 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
                     {post.data.title}
                   </h3>
                   <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-500">
-                    <time datetime={post.data.pubDate.toISOString()}>
-                      {post.data.pubDate.toLocaleDateString('zh-CN')}
+                    <time datetime={formatDateISO(post.data.pubDate)}>
+                      {formatDate(post.data.pubDate)}
                     </time>
                     {post.data.categories.length > 0 && (
                       <div class="flex gap-2">

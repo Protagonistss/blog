@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { formatDate, formatDateISO } from '../../utils/date';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -40,8 +41,8 @@ const filteredPosts = posts
               {post.data.description || '暂无描述'}
             </p>
             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-500">
-              <time datetime={post.data.pubDate.toISOString()}>
-                {post.data.pubDate.toLocaleDateString('zh-CN')}
+              <time datetime={formatDateISO(post.data.pubDate)}>
+                {formatDate(post.data.pubDate)}
               </time>
               {post.data.categories.length > 0 && (
                 <div class="flex gap-2">

@@ -61,6 +61,10 @@ const siteDescription = "不迁怒，不二过。";
               分类
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
+            <a href="/tech-stacks" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="tech-stacks">
+              技术栈
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
             <a href="/tags" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="tags">
               标签
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
@@ -105,6 +109,9 @@ const siteDescription = "不迁怒，不二过。";
             </a>
             <a href="/categories" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="categories">
               分类
+            </a>
+            <a href="/tech-stacks" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="tech-stacks">
+              技术栈
             </a>
             <a href="/tags" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="tags">
               标签
@@ -161,6 +168,8 @@ const siteDescription = "不迁怒，不二过。";
             if (page === 'home' && (currentPath === '/' || currentPath === '')) {
               isActive = true;
             } else if (page === 'categories' && currentPath.startsWith('/categories')) {
+              isActive = true;
+            } else if (page === 'tech-stacks' && currentPath.startsWith('/tech-stacks')) {
               isActive = true;
             } else if (page === 'tags' && currentPath.startsWith('/tags')) {
               isActive = true;
