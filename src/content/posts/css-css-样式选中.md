@@ -21,9 +21,7 @@ style{
   }
   
   // 选中除了第一个p标签以外的标签
-  div p:not(:first-child){
-    
-  }
+  div p:not(:first-child){}
   
 }
 ```
