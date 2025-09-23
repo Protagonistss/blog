@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import { calculateReadingTime } from '../utils/readingTime';
 import { getRelatedPosts } from '../utils/posts';
 import { formatDate, formatDateISO } from '../utils/date';
+import { getArticleDates } from '../utils/articleDates';
 
 export interface Props {
   frontmatter: any;
@@ -15,6 +16,25 @@ const { frontmatter, content } = Astro.props;
 
 // 计算阅读时间
 const readingTime = content ? calculateReadingTime(content) : 5;
+
+// 获取文章的实际文件路径和日期信息
+let fileModifiedTime = null;
+try {
+  // 尝试从文件系统获取真实的修改时间
+  // URL: /posts/css/css-css-样式选中 -> 文件: src/content/posts/css/css-css-样式选中.md
+  const urlPath = Astro.url.pathname.replace('/posts/', '');
+  // 解码 URL 编码的字符
+  const decodedPath = decodeURIComponent(urlPath);
+  const filePath = `src/content/posts/${decodedPath}.md`;
+  const articleDates = getArticleDates(filePath);
+  fileModifiedTime = articleDates?.fileModifiedTime;
+} catch (error) {
+  // 如果无法获取文件信息，忽略错误
+  console.warn('无法获取文件系统时间:', error);
+}
+
+// 确定要显示的更新时间：优先使用 frontmatter 中的 updatedDate，否则使用文件修改时间
+const displayUpdatedDate = frontmatter.updatedDate || fileModifiedTime;
 
 // 获取相关文章
 const allPosts = await getCollection('posts');
@@ -59,9 +79,20 @@ const relatedPosts = getRelatedPosts(
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
               <time datetime={formatDateISO(frontmatter.pubDate)}>
-                {formatDate(frontmatter.pubDate)}
+                发布时间：{formatDate(frontmatter.pubDate)}
               </time>
             </div>
+            
+            {displayUpdatedDate && (
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                <time datetime={formatDateISO(displayUpdatedDate)}>
+                  最后更新：{formatDate(displayUpdatedDate)}
+                </time>
+              </div>
+            )}
             
             <div class="flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,6 +125,12 @@ const relatedPosts = getRelatedPosts(
                 <span class="text-gray-600 dark:text-gray-400">发布时间</span>
                 <span class="text-gray-900 dark:text-white font-medium">{formatDate(frontmatter.pubDate)}</span>
               </div>
+              {displayUpdatedDate && (
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-600 dark:text-gray-400">最后更新</span>
+                  <span class="text-gray-900 dark:text-white font-medium">{formatDate(displayUpdatedDate)}</span>
+                </div>
+              )}
               <div class="flex justify-between items-center">
                 <span class="text-gray-600 dark:text-gray-400">阅读时间</span>
                 <span class="text-gray-900 dark:text-white font-medium">约 {readingTime} 分钟</span>

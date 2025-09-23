@@ -37,3 +37,8 @@ export {
   getCategoryStats, 
   getRelatedPosts 
 } from './posts';
+
+// 文章日期处理
+export { 
+  getArticleDates 
+} from './articleDates';
