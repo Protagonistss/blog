@@ -1,6 +1,6 @@
 ---
-title: "Css样式选中"
-description: ""
+title: "Css如何选中DOM"
+description: "css 选取dom的方式"
 pubDate: "2019-05-16T11:01:33.000Z"
 tags: ["css"]
 categories: ["css"]
@@ -9,7 +9,7 @@ techStack: "CSS"
 ---
 
 
-#### CSS选中元素
+### CSS选中元素
 
 ```css
 <div>
@@ -22,7 +22,6 @@ style{
   
   // 选中除了第一个p标签以外的标签
   div p:not(:first-child){}
-  
 }
 ```
 
