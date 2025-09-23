@@ -94,7 +94,7 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+# public - 注释掉，Astro项目需要public目录
 
 # Storybook build outputs
 .out
