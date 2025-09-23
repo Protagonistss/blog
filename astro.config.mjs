@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://protagonistss.github.io',
+  site: 'https://protagonisths.com',
   base: '/',
   output: 'static',
   trailingSlash: 'never',
