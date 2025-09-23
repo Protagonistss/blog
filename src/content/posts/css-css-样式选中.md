@@ -17,8 +17,7 @@ draft: false
 </div>
 style{
   // 选中第一个p标签
-  div p:nth-child(1){
-  }
+  div p:nth-child(1){}
   
   // 选中除了第一个p标签以外的标签
   div p:not(:first-child){}
