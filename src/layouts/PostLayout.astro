@@ -1,5 +1,6 @@
 ---
 import Layout from './Layout.astro';
+import Comments from '../components/Comments.astro';
 import { getCollection } from 'astro:content';
 import { calculateReadingTime } from '../utils/readingTime';
 import { getRelatedPosts } from '../utils/posts';
@@ -180,6 +181,9 @@ const relatedPosts = getRelatedPosts(
         </div>
       </aside>
     </div>
+    
+    <!-- 评论区域 -->
+    <Comments title={frontmatter.title} slug={Astro.params.slug || ''} />
     
     {relatedPosts.length > 0 && (
       <section class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
