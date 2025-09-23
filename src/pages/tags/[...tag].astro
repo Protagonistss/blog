@@ -22,12 +22,21 @@ const filteredPosts = posts
 <Layout title={`标签: ${tag}`} description={`${tag} 标签下的所有文章`}>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        标签: #{tag}
-      </h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        共 {filteredPosts.length} 篇文章
-      </p>
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+            标签: #{tag}
+          </h1>
+          <p class="text-gray-600 dark:text-gray-400">
+            共 {filteredPosts.length} 篇文章
+          </p>
+        </div>
+      </div>
     </header>
 
     <div class="space-y-6">
@@ -44,11 +53,11 @@ const filteredPosts = posts
               <time datetime={formatDateISO(post.data.pubDate)}>
                 {formatDate(post.data.pubDate)}
               </time>
-              {post.data.categories.length > 0 && (
-                <div class="flex gap-2">
-                  {post.data.categories.map(category => (
-                    <span class="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded text-xs">
-                      {category}
+              {post.data.tags.length > 0 && (
+                <div class="flex gap-1">
+                  {post.data.tags.map(t => (
+                    <span class={`px-2 py-1 ${t === tag ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'} rounded text-xs`}>
+                      #{t}
                     </span>
                   ))}
                 </div>

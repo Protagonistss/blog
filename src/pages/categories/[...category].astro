@@ -2,32 +2,67 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { formatDate, formatDateISO } from '../../utils/date';
+import { groupPostsByTechStack } from '../../utils/posts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
   const categories = [...new Set(posts.flatMap(post => post.data.categories))];
+  const postsByTechStack = groupPostsByTechStack(posts);
+  const techStacks = Object.keys(postsByTechStack);
   
-  return categories.map(category => ({
+  // 生成分类路径
+  const categoryPaths = categories.map(category => ({
     params: { category },
-    props: { category, posts: posts.filter(post => post.data.categories.includes(category)) }
+    props: { 
+      category, 
+      posts: posts.filter(post => post.data.categories.includes(category)),
+      type: 'category'
+    }
   }));
+  
+  // 生成技术栈路径
+  const techStackPaths = techStacks.map(techStack => ({
+    params: { category: techStack },
+    props: { 
+      category: techStack, 
+      posts: postsByTechStack[techStack],
+      type: 'techstack'
+    }
+  }));
+  
+  return [...categoryPaths, ...techStackPaths];
 }
 
-const { category, posts } = Astro.props;
+const { category, posts, type } = Astro.props;
 const filteredPosts = posts
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<Layout title={`分类: ${category}`} description={`${category} 分类下的所有文章`}>
+<Layout title={`${type === 'techstack' ? '技术栈' : '分类'}: ${category}`} description={`${category} ${type === 'techstack' ? '技术栈' : '分类'}下的所有文章`}>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        分类: {category}
-      </h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        共 {filteredPosts.length} 篇文章
-      </p>
+      <div class="flex items-center gap-3 mb-4">
+        <div class={`w-12 h-12 bg-gradient-to-br ${type === 'techstack' ? 'from-green-500 to-green-600' : 'from-blue-500 to-blue-600'} rounded-xl flex items-center justify-center`}>
+          {type === 'techstack' ? (
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          ) : (
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+            </svg>
+          )}
+        </div>
+        <div>
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+            {type === 'techstack' ? '技术栈' : '分类'}: {category}
+          </h1>
+          <p class="text-gray-600 dark:text-gray-400">
+            共 {filteredPosts.length} 篇文章
+          </p>
+        </div>
+      </div>
     </header>
 
     <div class="space-y-6">

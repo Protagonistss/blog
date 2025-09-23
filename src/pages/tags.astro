@@ -15,7 +15,7 @@ const tags = [...new Set(publishedPosts.flatMap(post => post.data.tags))];
 const tagStats = getTagStats(publishedPosts);
 ---
 
-<Layout title="标签" description="所有文章标签">
+<Layout title="所有标签" description="浏览所有文章标签">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- 页面头部 -->
     <header class="text-center mb-12">
@@ -23,13 +23,13 @@ const tagStats = getTagStats(publishedPosts);
         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
           <path d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"/>
         </svg>
-        文章标签
+        所有标签
       </div>
       <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent mb-4">
-        热门标签
+        标签大全
       </h1>
       <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-        通过标签快速发现相关文章，探索技术话题的深度内容
+        浏览所有文章标签，发现更多精彩内容
       </p>
       <div class="mt-6 flex justify-center gap-6 text-sm">
         <div class="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-full">
@@ -50,12 +50,12 @@ const tagStats = getTagStats(publishedPosts);
     <!-- 标签云 -->
     <div class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-3xl p-8 mb-12">
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">标签云</h2>
-        <div class="flex flex-wrap justify-center gap-3">
-          {tagStats.map(({ tag, count }, index) => {
-            const size = count > 5 ? 'text-lg' : count > 3 ? 'text-base' : 'text-sm';
-            const opacity = count > 5 ? 'opacity-100' : count > 3 ? 'opacity-80' : 'opacity-60';
-            const colorClass = getTagCloudColor(index);
-          
+      <div class="flex flex-wrap justify-center gap-3">
+        {tagStats.map(({ tag, count }, index) => {
+          const size = count > 5 ? 'text-lg' : count > 3 ? 'text-base' : 'text-sm';
+          const opacity = count > 5 ? 'opacity-100' : count > 3 ? 'opacity-80' : 'opacity-60';
+          const colorClass = getTagCloudColor(index);
+        
           return (
             <a 
               href={`/tags/${tag}`}
@@ -82,7 +82,7 @@ const tagStats = getTagStats(publishedPosts);
             class={`group ${theme.bg} dark:bg-gray-800 rounded-2xl border ${theme.border} dark:border-gray-700 p-6 hover:shadow-lg hover:shadow-${theme.hover.split('-')[1]}-500/20 transition-all duration-300 hover:-translate-y-1`}
           >
             <div class="flex items-center justify-between mb-4">
-              <h3 class={`text-xl font-bold ${theme.text} dark:text-white group-hover:text-white transition-colors`}>
+              <h3 class={`text-xl font-bold ${theme.text} dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors`}>
                 #{tag}
               </h3>
               <div class={`w-8 h-8 bg-gradient-to-br ${theme.countBg} rounded-lg flex items-center justify-center`}>
@@ -94,7 +94,7 @@ const tagStats = getTagStats(publishedPosts);
               <p class="text-gray-600 dark:text-gray-400 text-sm">
                 {count} 篇文章
               </p>
-              <svg class={`w-4 h-4 text-gray-400 group-hover:text-white transition-colors`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class={`w-4 h-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white transition-colors`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
             </div>
