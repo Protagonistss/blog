@@ -65,8 +65,8 @@ const siteDescription = "不迁怒，不二过。";
               归档
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <a href="/about" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="about">
-              关于
+            <a href="/profile" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="profile">
+              作者
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
           </div>
@@ -104,6 +104,9 @@ const siteDescription = "不迁怒，不二过。";
             </a>
             <a href="/archives" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="archives">
               归档
+            </a>
+            <a href="/profile" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors" data-page="profile">
+              作者
             </a>
           </div>
         </div>
@@ -157,7 +160,7 @@ const siteDescription = "不迁怒，不二过。";
               isActive = true;
             } else if (page === 'archives' && currentPath.startsWith('/archives')) {
               isActive = true;
-            } else if (page === 'about' && currentPath.startsWith('/about')) {
+            } else if (page === 'profile' && currentPath.startsWith('/profile')) {
               isActive = true;
             }
             

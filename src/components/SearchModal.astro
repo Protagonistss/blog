@@ -82,18 +82,11 @@
     
     async loadPosts() {
       try {
-        // 这里需要从 API 获取文章数据
-        // 暂时使用静态数据，实际项目中应该从 API 获取
-        const response = await fetch('/api/posts.json');
-        if (response.ok) {
-          this.posts = await response.json();
-        } else {
-          // 如果 API 不存在，使用备用数据
-          this.posts = await this.getFallbackPosts();
-        }
-      } catch (error) {
-        console.warn('无法加载文章数据，使用备用数据');
+        // 直接使用静态数据，不依赖API
         this.posts = await this.getFallbackPosts();
+      } catch (error) {
+        console.warn('无法加载文章数据');
+        this.posts = [];
       }
     }
     
