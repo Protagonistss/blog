@@ -1,0 +1,173 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="技术问答" description="技术问题交流与解答平台，基于 Giscus 评论系统">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- 页面头部 -->
+    <header class="mb-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center text-2xl font-bold text-white shadow-lg">
+          💬
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">技术问答</h1>
+          <p class="text-gray-600 dark:text-gray-400">技术问题交流与解答平台，基于 Giscus 评论系统</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主要内容区域 - 问答区域优先显示 -->
+    <div class="grid gap-8 lg:grid-cols-3">
+      <!-- 左侧：问答讨论区 -->
+      <div class="lg:col-span-2">
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">技术问答讨论区</h2>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">在这里提问和回答技术问题，与社区成员交流学习</p>
+          
+          <!-- Giscus 评论组件 -->
+          <div id="giscus-comments"></div>
+        </div>
+      </div>
+
+      <!-- 右侧：帮助信息 -->
+      <div class="space-y-6">
+        <!-- 快速开始 -->
+        <div class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 dark:from-green-900/20 dark:via-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">快速开始</h3>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 text-sm font-bold flex-shrink-0 mt-0.5">
+                1
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-200 text-sm">登录 GitHub</h4>
+                <p class="text-xs text-gray-600 dark:text-gray-400">使用 GitHub 账号登录</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400 text-sm font-bold flex-shrink-0 mt-0.5">
+                2
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-200 text-sm">发布问题</h4>
+                <p class="text-xs text-gray-600 dark:text-gray-400">在评论区提问</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm font-bold flex-shrink-0 mt-0.5">
+                3
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-200 text-sm">参与讨论</h4>
+                <p class="text-xs text-gray-600 dark:text-gray-400">回复和帮助他人</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 问题分类 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">问题分类</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
+              #JavaScript
+            </span>
+            <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
+              #TypeScript
+            </span>
+            <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium">
+              #Vue
+            </span>
+            <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded-full text-xs font-medium">
+              #React
+            </span>
+            <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-xs font-medium">
+              #Node.js
+            </span>
+            <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-xs font-medium">
+              #Python
+            </span>
+            <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-xs font-medium">
+              #Rust
+            </span>
+            <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium">
+              #CSS
+            </span>
+            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium">
+              #其他
+            </span>
+          </div>
+        </div>
+
+        <!-- 提问技巧 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">提问技巧</h3>
+          <div class="space-y-3">
+            <div>
+              <h4 class="font-semibold text-gray-800 dark:text-gray-200 text-sm mb-1">详细描述问题</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400">提供问题背景和具体现象</p>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800 dark:text-gray-200 text-sm mb-1">提供代码示例</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400">使用代码块展示相关代码</p>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800 dark:text-gray-200 text-sm mb-1">使用标签分类</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400">选择合适的标签便于查找</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Giscus 配置
+    const giscusConfig = {
+      "src": "https://giscus.app/client.js",
+      "data-repo": "Protagonistss/myblog",
+      "data-repo-id": "R_kgDOKQZQJQ", // 需要替换为实际的仓库ID
+      "data-category": "Q&A",
+      "data-category-id": "DIC_kwDOKQZQJc4Cb8hJ", // 需要替换为实际的分类ID
+      "data-mapping": "pathname",
+      "data-strict": "0",
+      "data-reactions-enabled": "1",
+      "data-emit-metadata": "0",
+      "data-input-position": "bottom",
+      "data-theme": "preferred_color_scheme",
+      "data-lang": "zh-CN",
+      "data-loading": "lazy",
+      "crossorigin": "anonymous",
+      "async": ""
+    };
+
+    // 动态加载 Giscus
+    function loadGiscus() {
+      const script = document.createElement('script');
+      script.src = giscusConfig.src;
+      script.setAttribute('data-repo', giscusConfig['data-repo']);
+      script.setAttribute('data-repo-id', giscusConfig['data-repo-id']);
+      script.setAttribute('data-category', giscusConfig['data-category']);
+      script.setAttribute('data-category-id', giscusConfig['data-category-id']);
+      script.setAttribute('data-mapping', giscusConfig['data-mapping']);
+      script.setAttribute('data-strict', giscusConfig['data-strict']);
+      script.setAttribute('data-reactions-enabled', giscusConfig['data-reactions-enabled']);
+      script.setAttribute('data-emit-metadata', giscusConfig['data-emit-metadata']);
+      script.setAttribute('data-input-position', giscusConfig['data-input-position']);
+      script.setAttribute('data-theme', giscusConfig['data-theme']);
+      script.setAttribute('data-lang', giscusConfig['data-lang']);
+      script.setAttribute('data-loading', giscusConfig['data-loading']);
+      script.crossOrigin = giscusConfig.crossorigin;
+      script.async = true;
+      
+      const giscusContainer = document.getElementById('giscus-comments');
+      if (giscusContainer) {
+        giscusContainer.appendChild(script);
+      }
+    }
+
+    // 页面加载完成后初始化 Giscus
+    document.addEventListener('DOMContentLoaded', loadGiscus);
+  </script>
+</Layout>
