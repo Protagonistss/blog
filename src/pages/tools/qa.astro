@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="技术问答" description="技术问题交流与解答平台，基于 Giscus 评论系统">
+<Layout title="技术问答" description="技术问题交流与解答平台">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- 页面头部 -->
     <header class="mb-8">
@@ -12,7 +12,7 @@ import Layout from '../../layouts/Layout.astro';
         </div>
         <div>
           <h1 class="text-3xl font-bold text-gray-900 dark:text-white">技术问答</h1>
-          <p class="text-gray-600 dark:text-gray-400">技术问题交流与解答平台，基于 Giscus 评论系统</p>
+          <p class="text-gray-600 dark:text-gray-400">技术问题交流与解答</p>
         </div>
       </div>
     </header>
@@ -25,13 +25,70 @@ import Layout from '../../layouts/Layout.astro';
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">技术问答讨论区</h2>
           <p class="text-gray-600 dark:text-gray-400 mb-6">在这里提问和回答技术问题，与社区成员交流学习</p>
           
-          <!-- Giscus 评论组件 -->
-          <div id="giscus-comments"></div>
+             <!-- Giscus 评论组件 -->
+             <div id="giscus-comments">
+               <!-- 加载中提示 -->
+               <div id="loading-comments" class="text-center py-8">
+                 <div class="text-gray-500 dark:text-gray-400 mb-4">
+                   <svg class="w-8 h-8 mx-auto mb-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                   </svg>
+                   <p class="text-lg font-medium mb-2">正在加载评论系统...</p>
+                   <p class="text-sm">请稍候，系统正在初始化</p>
+                 </div>
+               </div>
+               
+               <!-- 备用内容（隐藏状态） -->
+               <div id="fallback-comments" class="hidden text-center py-8">
+                 <div class="text-gray-500 dark:text-gray-400 mb-4">
+                   <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                   </svg>
+                   <p class="text-lg font-medium mb-2">评论系统暂时不可用</p>
+                   <p class="text-sm mb-4">请使用右侧的快速创建按钮参与讨论</p>
+                 </div>
+               </div>
+             </div>
         </div>
       </div>
 
       <!-- 右侧：帮助信息 -->
       <div class="space-y-6">
+        <!-- 快速创建问答 -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+          <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+            快速创建问答
+          </h3>
+          <p class="text-blue-700 dark:text-blue-300 text-sm mb-4">
+            直接在GitHub Discussions中创建新的技术问答
+          </p>
+          <div class="space-y-3">
+            <a 
+              href="https://github.com/Protagonistss/blog/discussions/new?category=Q%26A&title=技术问题：请描述你的问题" 
+              target="_blank"
+              class="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+            >
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              创建新问答
+            </a>
+            <a 
+              href="https://github.com/Protagonistss/blog/discussions" 
+              target="_blank"
+              class="w-full inline-flex items-center justify-center px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-colors duration-200"
+            >
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+              查看所有讨论
+            </a>
+          </div>
+        </div>
+
         <!-- 快速开始 -->
         <div class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 dark:from-green-900/20 dark:via-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6">
           <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">快速开始</h3>
@@ -123,43 +180,60 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <script>
-    // Giscus 配置
-    const giscusConfig = {
-      "src": "https://giscus.app/client.js",
-      "data-repo": "Protagonistss/myblog",
-      "data-repo-id": "R_kgDOKQZQJQ", // 需要替换为实际的仓库ID
-      "data-category": "Q&A",
-      "data-category-id": "DIC_kwDOKQZQJc4Cb8hJ", // 需要替换为实际的分类ID
-      "data-mapping": "pathname",
-      "data-strict": "0",
-      "data-reactions-enabled": "1",
-      "data-emit-metadata": "0",
-      "data-input-position": "bottom",
-      "data-theme": "preferred_color_scheme",
-      "data-lang": "zh-CN",
-      "data-loading": "lazy",
-      "crossorigin": "anonymous",
-      "async": ""
-    };
-
     // 动态加载 Giscus
     function loadGiscus() {
+      if (document.querySelector('script[src*="giscus.app"]')) {
+        return;
+      }
+
       const script = document.createElement('script');
-      script.src = giscusConfig.src;
-      script.setAttribute('data-repo', giscusConfig['data-repo']);
-      script.setAttribute('data-repo-id', giscusConfig['data-repo-id']);
-      script.setAttribute('data-category', giscusConfig['data-category']);
-      script.setAttribute('data-category-id', giscusConfig['data-category-id']);
-      script.setAttribute('data-mapping', giscusConfig['data-mapping']);
-      script.setAttribute('data-strict', giscusConfig['data-strict']);
-      script.setAttribute('data-reactions-enabled', giscusConfig['data-reactions-enabled']);
-      script.setAttribute('data-emit-metadata', giscusConfig['data-emit-metadata']);
-      script.setAttribute('data-input-position', giscusConfig['data-input-position']);
-      script.setAttribute('data-theme', giscusConfig['data-theme']);
-      script.setAttribute('data-lang', giscusConfig['data-lang']);
-      script.setAttribute('data-loading', giscusConfig['data-loading']);
-      script.crossOrigin = giscusConfig.crossorigin;
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Protagonistss/blog');
+      script.setAttribute('data-repo-id', 'R_kgDOG8Ei9A');
+      // 使用Q&A分类
+      script.setAttribute('data-category', 'Q&A');
+      script.setAttribute('data-category-id', 'DIC_kwDOG8Ei9M4Cvypi');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-theme', 'preferred_color_scheme');
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('data-loading', 'lazy');
+      script.crossOrigin = 'anonymous';
       script.async = true;
+      
+      // 添加成功加载处理
+      script.onload = function() {
+        console.log('Giscus 脚本加载成功');
+        // 等待Giscus组件渲染
+        setTimeout(() => {
+          const giscusElement = document.querySelector('.giscus');
+          if (giscusElement) {
+            console.log('Giscus 组件渲染成功');
+            hideLoadingComments();
+          } else {
+            console.log('Giscus 组件未渲染，显示备用内容');
+            showFallbackComments();
+          }
+        }, 2000);
+      };
+      
+      // 添加错误处理
+      script.onerror = function() {
+        console.log('Giscus 加载失败，显示备用内容');
+        showFallbackComments();
+      };
+      
+      // 设置超时，如果8秒内没有加载成功就显示备用内容
+      setTimeout(() => {
+        const giscusElement = document.querySelector('.giscus');
+        if (!giscusElement) {
+          console.log('Giscus 加载超时，显示备用内容');
+          showFallbackComments();
+        }
+      }, 8000);
       
       const giscusContainer = document.getElementById('giscus-comments');
       if (giscusContainer) {
@@ -167,7 +241,24 @@ import Layout from '../../layouts/Layout.astro';
       }
     }
 
-    // 页面加载完成后初始化 Giscus
+    // 隐藏加载提示
+    function hideLoadingComments() {
+      const loading = document.getElementById('loading-comments');
+      if (loading) {
+        loading.style.display = 'none';
+      }
+    }
+    
+    // 显示备用评论内容
+    function showFallbackComments() {
+      hideLoadingComments();
+      const fallback = document.getElementById('fallback-comments');
+      if (fallback) {
+        fallback.classList.remove('hidden');
+      }
+    }
+
+    // 重新启用Giscus加载
     document.addEventListener('DOMContentLoaded', loadGiscus);
   </script>
 </Layout>

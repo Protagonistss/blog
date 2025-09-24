@@ -20,11 +20,13 @@
 
 ```javascript
 const giscusConfig = {
-  "data-repo-id": "R_kgDOKQZQJQ", // 替换为实际的仓库ID
-  "data-category-id": "DIC_kwDOKQZQJc4Cb8hJ", // 替换为实际的分类ID
+  "data-repo-id": "你的实际仓库ID", // 从 Giscus 配置页面获取
+  "data-category-id": "你的实际分类ID", // 从 Giscus 配置页面获取
   // ... 其他配置保持不变
 };
 ```
+
+**重要提示**：当前配置中的 ID 是示例值，需要替换为从 Giscus 配置页面获取的实际值。
 
 ### 4. 创建 GitHub 分类（可选）
 如果还没有 Q&A 分类，需要在 GitHub 仓库中创建：
