@@ -5,6 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        'background': 'var(--color-background)',
+        'text': 'var(--color-text)',
         primary: {
           50: '#f0f9ff',
           100: '#dbeafe',

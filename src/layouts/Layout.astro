@@ -12,15 +12,6 @@ export interface Props {
 const { title, description = "developer", image } = Astro.props;
 const siteTitle = "Protagonistss";
 const siteDescription = "不迁怒，不二过。";
-
-// 获取主题信息，默认为浅色主题
-const defaultTheme = 'light';
-const isDark = false; // 服务器端默认为浅色，客户端会立即更新
-
-// 生成主题相关的内联样式
-const themeStyles = isDark 
-  ? 'background-color: #111827 !important; color: #f9fafb !important;'
-  : 'background-color: #ffffff !important; color: #111827 !important;';
 ---
 
 <!DOCTYPE html>
@@ -54,7 +45,7 @@ const themeStyles = isDark
     <meta name="twitter:description" content={description} />
     {image && <meta name="twitter:image" content={image} />}
   </head>
-  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <body>
     <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
       <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
@@ -162,13 +153,7 @@ const themeStyles = isDark
     <!-- 搜索模态框 -->
     <SearchModal />
     
-    <script>
-      // 主题加载完成标记
-      document.addEventListener('DOMContentLoaded', function() {
-        // 添加主题加载完成的类，恢复过渡效果
-        document.documentElement.classList.add('theme-loaded');
-      });
-      
+    <script is:inline>
       // 移动端菜单切换
       document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -240,6 +225,64 @@ const themeStyles = isDark
         // 监听窗口大小变化，重新计算选中状态
         window.addEventListener('resize', updateActiveNavLink);
       });
+
+      // --- 主题切换逻辑 ---
+      (function() {
+        const themeToggles = document.querySelectorAll('#theme-toggle');
+        const sunIcons = document.querySelectorAll('#sun-icon');
+        const moonIcons = document.querySelectorAll('#moon-icon');
+        const html = document.documentElement;
+
+        if (themeToggles.length === 0) {
+          return;
+        }
+
+        const updateIcons = (isDark) => {
+          sunIcons.forEach(icon => icon.style.display = isDark ? 'block' : 'none');
+          moonIcons.forEach(icon => icon.style.display = isDark ? 'none' : 'block');
+        };
+
+        const applyTheme = (theme) => {
+          const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = theme === 'dark' || (theme === 'system' && systemIsDark);
+          
+          html.classList.remove('light', 'dark');
+          html.classList.add(isDark ? 'dark' : 'light');
+          updateIcons(isDark);
+        };
+
+        const toggleTheme = () => {
+          const currentTheme = localStorage.getItem('theme') || 'system';
+          const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          let newTheme;
+
+          if (currentTheme === 'system') {
+            newTheme = systemIsDark ? 'light' : 'dark';
+          } else if (currentTheme === 'light') {
+            newTheme = 'dark';
+          } else {
+            newTheme = 'system';
+          }
+          
+          localStorage.setItem('theme', newTheme);
+          applyTheme(newTheme);
+        };
+
+        // 初始化
+        const initialTheme = localStorage.getItem('theme') || 'system';
+        applyTheme(initialTheme);
+        
+        // 为所有切换按钮添加事件监听
+        themeToggles.forEach(toggle => toggle.addEventListener('click', toggleTheme));
+
+        // 监听系统主题变化
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+          const currentTheme = localStorage.getItem('theme') || 'system';
+          if (currentTheme === 'system') {
+            applyTheme('system');
+          }
+        });
+      })();
     </script>
   </body>
 </html>
