@@ -1,0 +1,340 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="JSON 格式化工具" description="在线 JSON 格式化、压缩、验证和美化工具">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- 页面头部 -->
+    <header class="mb-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-2xl font-bold text-white shadow-lg">
+          {}
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">JSON 格式化工具</h1>
+          <p class="text-gray-600 dark:text-gray-400">在线格式化、压缩、验证和美化 JSON 数据</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 工具界面 -->
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- 输入区域 -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">输入 JSON</h2>
+          <div class="flex gap-2">
+            <button id="clear-btn" class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+              清空
+            </button>
+            <button id="example-btn" class="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors">
+              示例
+            </button>
+          </div>
+        </div>
+        <textarea 
+          id="json-input" 
+          placeholder="请输入 JSON 数据..."
+          class="w-full h-96 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-mono text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        ></textarea>
+      </div>
+
+      <!-- 输出区域 -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">格式化结果</h2>
+          <div class="flex gap-2">
+            <button id="copy-btn" class="px-3 py-1 text-sm bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors">
+              复制
+            </button>
+            <button id="download-btn" class="px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors">
+              下载
+            </button>
+          </div>
+        </div>
+        <textarea 
+          id="json-output" 
+          readonly
+          class="w-full h-96 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-mono text-sm resize-none"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- 缩进选择 -->
+    <div class="mt-8 flex flex-wrap gap-4 justify-center items-center">
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">缩进：</label>
+        <select id="indent-select" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="2">2 个空格</option>
+          <option value="4" selected>4 个空格</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="mt-6 flex flex-wrap gap-4 justify-center">
+      <button id="format-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+        格式化
+      </button>
+      <button id="minify-btn" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
+        压缩
+      </button>
+      <button id="validate-btn" class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+        验证
+      </button>
+      <button id="beautify-btn" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium">
+        美化
+      </button>
+    </div>
+
+    <!-- 状态信息 -->
+    <div id="status" class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400"></div>
+
+    <!-- 使用说明 -->
+    <div class="mt-12 bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">使用说明</h3>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div>
+          <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">功能特性</h4>
+          <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+            <li>• JSON 格式化：美化 JSON 数据格式</li>
+            <li>• JSON 压缩：去除多余空格和换行</li>
+            <li>• JSON 验证：检查 JSON 语法是否正确</li>
+            <li>• 语法高亮：支持 JSON 语法高亮显示</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">使用技巧</h4>
+          <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+            <li>• 支持大文件处理</li>
+            <li>• 自动检测 JSON 格式</li>
+            <li>• 支持复制和下载结果</li>
+            <li>• 实时错误提示</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class JSONFormatter {
+      constructor() {
+        this.input = document.getElementById('json-input');
+        this.output = document.getElementById('json-output');
+        this.status = document.getElementById('status');
+        this.indentSelect = document.getElementById('indent-select');
+        this.init();
+      }
+
+      init() {
+        // 绑定事件
+        document.getElementById('format-btn').addEventListener('click', () => this.format());
+        document.getElementById('minify-btn').addEventListener('click', () => this.minify());
+        document.getElementById('validate-btn').addEventListener('click', () => this.validate());
+        document.getElementById('beautify-btn').addEventListener('click', () => this.beautify());
+        document.getElementById('clear-btn').addEventListener('click', () => this.clear());
+        document.getElementById('example-btn').addEventListener('click', () => this.loadExample());
+        document.getElementById('copy-btn').addEventListener('click', () => this.copy());
+        document.getElementById('download-btn').addEventListener('click', () => this.download());
+
+        // 实时验证（不自动修复）
+        this.input.addEventListener('input', () => {
+          if (this.input.value.trim()) {
+            this.validateOnly();
+          } else {
+            this.status.textContent = '';
+          }
+        });
+      }
+
+      // 获取当前选择的缩进值
+      getIndentSize() {
+        return parseInt(this.indentSelect.value);
+      }
+
+      // 只验证不修复
+      validateOnly() {
+        try {
+          JSON.parse(this.input.value);
+          this.status.textContent = '';
+        } catch (error) {
+          this.showDetailedError(error);
+        }
+      }
+
+      format() {
+        try {
+          const jsonData = JSON.parse(this.input.value);
+          const indentSize = this.getIndentSize();
+          this.output.value = JSON.stringify(jsonData, null, indentSize);
+          this.showStatus('格式化成功', 'success');
+        } catch (error) {
+          const fixedJson = this.tryFixJSON(this.input.value);
+          if (fixedJson) {
+            const indentSize = this.getIndentSize();
+            const jsonData = JSON.parse(fixedJson);
+            this.output.value = JSON.stringify(jsonData, null, indentSize);
+            this.showStatus('检测到格式问题，已自动修复并格式化', 'success');
+          } else {
+            this.showDetailedError(error);
+          }
+        }
+      }
+
+      minify() {
+        try {
+          const jsonData = JSON.parse(this.input.value);
+          this.output.value = JSON.stringify(jsonData);
+          this.showStatus('压缩成功', 'success');
+        } catch (error) {
+          this.showDetailedError(error);
+        }
+      }
+
+      validate() {
+        try {
+          JSON.parse(this.input.value);
+          this.showStatus('JSON 格式正确', 'success');
+        } catch (error) {
+          this.showDetailedError(error);
+        }
+      }
+
+      beautify() {
+        try {
+          const jsonData = JSON.parse(this.input.value);
+          const indentSize = this.getIndentSize();
+          this.output.value = JSON.stringify(jsonData, null, indentSize);
+          this.showStatus('美化成功', 'success');
+        } catch (error) {
+          const fixedJson = this.tryFixJSON(this.input.value);
+          if (fixedJson) {
+            // 美化修复后的 JSON
+            const indentSize = this.getIndentSize();
+            const jsonData = JSON.parse(fixedJson);
+            this.output.value = JSON.stringify(jsonData, null, indentSize);
+            this.showStatus('检测到格式问题，已自动修复并美化', 'success');
+          } else {
+            this.showDetailedError(error);
+          }
+        }
+      }
+
+      clear() {
+        this.input.value = '';
+        this.output.value = '';
+        this.status.textContent = '';
+      }
+
+      loadExample() {
+        const example = {
+          "name": "Protagonistss",
+          "age": 25,
+          "skills": ["JavaScript", "TypeScript", "Rust", "Python"],
+          "contact": {
+            "email": "example@email.com",
+            "github": "https://github.com/Protagonistss"
+          },
+          "projects": [
+            {
+              "name": "My Blog",
+              "description": "A personal blog built with Astro",
+              "technologies": ["Astro", "Tailwind CSS", "TypeScript"]
+            }
+          ]
+        };
+        this.input.value = JSON.stringify(example);
+        this.format();
+      }
+
+      copy() {
+        if (this.output.value) {
+          navigator.clipboard.writeText(this.output.value).then(() => {
+            this.showStatus('已复制到剪贴板', 'success');
+          });
+        }
+      }
+
+      download() {
+        if (this.output.value) {
+          const blob = new Blob([this.output.value], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'formatted.json';
+          a.click();
+          URL.revokeObjectURL(url);
+          this.showStatus('文件已下载', 'success');
+        }
+      }
+
+      // 尝试自动修复常见的 JSON 格式问题
+      tryFixJSON(jsonString) {
+        try {
+          // 修复常见的单引号问题
+          let fixed = jsonString.replace(/'/g, '"');
+          
+          // 修复缺少引号的键名
+          fixed = fixed.replace(/(\w+):/g, '"$1":');
+          
+          // 修复尾随逗号
+          fixed = fixed.replace(/,(\s*[}\]])/g, '$1');
+          
+          // 尝试解析修复后的 JSON
+          const parsed = JSON.parse(fixed);
+          const indentSize = this.getIndentSize();
+          return JSON.stringify(parsed, null, indentSize);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      // 显示详细的错误信息
+      showDetailedError(error) {
+        let errorMessage = 'JSON 格式错误: ';
+        
+        if (error.message.includes('Unexpected token')) {
+          const match = error.message.match(/position (\d+)/);
+          if (match) {
+            const position = parseInt(match[1]);
+            const lines = this.input.value.substring(0, position).split('\n');
+            const line = lines.length;
+            const column = lines[lines.length - 1].length + 1;
+            errorMessage += `第 ${line} 行第 ${column} 列有语法错误`;
+          } else {
+            errorMessage += '语法错误，可能是缺少引号、逗号或括号';
+          }
+        } else if (error.message.includes('Unexpected end')) {
+          errorMessage += 'JSON 不完整，可能是缺少闭合的括号或引号';
+        } else if (error.message.includes('Unexpected number')) {
+          errorMessage += '数字格式错误，请检查数字的写法';
+        } else if (error.message.includes('Unexpected string')) {
+          errorMessage += '字符串格式错误，请检查引号是否配对';
+        } else {
+          errorMessage += error.message;
+        }
+        
+        errorMessage += '\n\n常见问题：\n• 键名需要用双引号包围\n• 字符串用双引号，不能用单引号\n• 不能有尾随逗号\n• 确保所有括号和引号都配对';
+        
+        this.showStatus(errorMessage, 'error');
+      }
+
+      showStatus(message, type) {
+        this.status.textContent = message;
+        this.status.className = `mt-6 text-center text-sm ${
+          type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+        }`;
+        
+        // 只有成功信息自动消失，错误信息保持显示
+        if (type === 'success') {
+          setTimeout(() => {
+            this.status.textContent = '';
+          }, 3000);
+        }
+      }
+    }
+
+    // 初始化工具
+    new JSONFormatter();
+  </script>
+</Layout>
