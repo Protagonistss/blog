@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 防闪烁的基础样式 */
+html {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+html.dark {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+body {
+  background-color: inherit;
+  color: inherit;
+}
+
 /* 自定义样式 */
 @layer base {
   html {
@@ -145,7 +161,12 @@
 
 /* 暗色模式切换动画 */
 * {
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+/* 确保 html 元素也有过渡效果 */
+html {
+  transition: background-color 0.15s ease-in-out;
 }
 
 /* 滚动条样式 */
