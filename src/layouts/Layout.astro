@@ -65,41 +65,10 @@ const siteDescription = "不迁怒，不二过。";
               归档
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <div class="relative group">
-              <button class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors flex items-center gap-1" data-page="tools">
-                工具
-                <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </button>
-              
-              <!-- 悬浮菜单 -->
-              <div class="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div class="p-2">
-                  <a href="/tools" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                    <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                      🛠️
-                    </div>
-                    <div>
-                      <div class="font-medium text-gray-900 dark:text-white">工具首页</div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">查看所有可用工具</div>
-                    </div>
-                  </a>
-                  
-                  <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-                  
-                  <a href="/tools/json-formatter" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                      {}
-                    </div>
-                    <div>
-                      <div class="font-medium text-gray-900 dark:text-white">JSON 格式化工具</div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">格式化、压缩和验证 JSON</div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
+            <a href="/tools" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="tools">
+              工具
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
             <a href="/profile" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors relative group" data-page="profile">
               作者
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 group-hover:w-full transition-all duration-300"></span>
