@@ -5,6 +5,7 @@ tags: ["windows"]
 categories: ["windows"]
 draft: false
 techStack: "shell"
+pubDate: "2025-10-02T10:31:06.000Z"
 ---
 
 # Windows 端口占用查看与进程终止手册
