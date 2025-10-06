@@ -1,5 +1,5 @@
 ---
-import Layout from './Layout.astro';
+import BaseLayout from './BaseLayout.astro';
 import Comments from '../components/Comments.astro';
 import { getCollection } from 'astro:content';
 import { calculateReadingTime } from '../utils/readingTime';
@@ -45,7 +45,7 @@ const relatedPosts = getRelatedPosts(
 );
 ---
 
-<Layout title={frontmatter.title} description={frontmatter.description}>
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <!-- 文章内容 -->
@@ -363,4 +363,4 @@ const relatedPosts = getRelatedPosts(
       initShareButtons();
     });
   </script>
-</Layout>
+</BaseLayout>

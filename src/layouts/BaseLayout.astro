@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import SearchModal from '../components/SearchModal.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import CozeChat from '../components/CozeChat.astro';
 
 export interface Props {
   title: string;
@@ -153,9 +152,6 @@ const siteDescription = "不迁怒，不二过。";
     
     <!-- 搜索模态框 -->
     <SearchModal />
-    
-    <!-- Coze 智能助手 -->
-    <CozeChat />
     
     <script is:inline>
       // 移动端菜单切换
