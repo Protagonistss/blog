@@ -7,9 +7,9 @@ export interface Props {
 }
 
 const {
-  botId = import.meta.env.PUBLIC_COZE_BOT_ID,
+  botId = import.meta.env.PUBLIC_COZE_BOT_ID || '7557962207624609842',
   title = import.meta.env.PUBLIC_COZE_TITLE || '智能助手',
-  token = import.meta.env.PUBLIC_COZE_TOKEN
+  token = import.meta.env.PUBLIC_COZE_TOKEN || ''
 } = Astro.props;
 ---
 
@@ -20,6 +20,11 @@ const {
   console.log('Bot ID:', botId);
   console.log('Title:', title);
   console.log('Token:', token ? '已设置' : '未设置');
+  console.log('Environment check:', {
+    PUBLIC_COZE_BOT_ID: import.meta.env.PUBLIC_COZE_BOT_ID,
+    PUBLIC_COZE_TITLE: import.meta.env.PUBLIC_COZE_TITLE,
+    PUBLIC_COZE_TOKEN: import.meta.env.PUBLIC_COZE_TOKEN ? '已设置' : '未设置'
+  });
   
   // 检查 token 是否配置
   if (!token || token === '') {

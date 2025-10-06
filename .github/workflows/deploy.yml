@@ -51,9 +51,9 @@ jobs:
         
       - name: Build
         env:
-          PUBLIC_COZE_BOT_ID: ${{ vars.PUBLIC_COZE_BOT_ID }}
-          PUBLIC_COZE_TITLE: ${{ vars.PUBLIC_COZE_TITLE }}
-          PUBLIC_COZE_TOKEN: ${{ vars.PUBLIC_COZE_TOKEN }}
+          PUBLIC_COZE_BOT_ID: ${{ vars.PUBLIC_COZE_BOT_ID || '7557962207624609842' }}
+          PUBLIC_COZE_TITLE: ${{ vars.PUBLIC_COZE_TITLE || '智能助手' }}
+          PUBLIC_COZE_TOKEN: ${{ secrets.PUBLIC_COZE_TOKEN }}
         run: pnpm build
         
       - name: Add .nojekyll file
