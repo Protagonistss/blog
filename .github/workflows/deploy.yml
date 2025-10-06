@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   workflow_dispatch:
 
 permissions:
@@ -50,6 +50,10 @@ jobs:
         run: pnpm install --no-frozen-lockfile
         
       - name: Build
+        env:
+          PUBLIC_COZE_BOT_ID: ${{ vars.PUBLIC_COZE_BOT_ID }}
+          PUBLIC_COZE_TITLE: ${{ vars.PUBLIC_COZE_TITLE }}
+          PUBLIC_COZE_TOKEN: ${{ vars.PUBLIC_COZE_TOKEN }}
         run: pnpm build
         
       - name: Add .nojekyll file
