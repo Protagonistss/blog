@@ -20,29 +20,16 @@ const {
   console.log('Bot ID:', botId);
   console.log('Title:', title);
   console.log('Token:', token ? '已设置' : '未设置');
-  console.log('Environment check:', {
-    PUBLIC_COZE_BOT_ID: import.meta.env.PUBLIC_COZE_BOT_ID,
-    PUBLIC_COZE_TITLE: import.meta.env.PUBLIC_COZE_TITLE,
-    PUBLIC_COZE_TOKEN: import.meta.env.PUBLIC_COZE_TOKEN ? '已设置' : '未设置'
-  });
-  
-  // 如果环境变量未设置，显示警告
-  if (!import.meta.env.PUBLIC_COZE_BOT_ID) {
-    console.warn('⚠️ PUBLIC_COZE_BOT_ID 环境变量未设置');
-  }
-  if (!import.meta.env.PUBLIC_COZE_TOKEN) {
-    console.warn('⚠️ PUBLIC_COZE_TOKEN 环境变量未设置');
-  }
-  
-  // 检查 token 是否配置
-  if (!token || token === '') {
-    console.warn('Coze: 请通过环境变量 PUBLIC_COZE_TOKEN 配置 token');
-    return;
-  }
   
   // 等待页面加载完成后初始化
   document.addEventListener('DOMContentLoaded', function() {
     console.log('CozeChat 组件开始初始化...');
+    
+    // 检查 token 是否配置
+    if (!token || token === '') {
+      console.warn('Coze: 请通过环境变量 PUBLIC_COZE_TOKEN 配置 token');
+      return;
+    }
     
     // 添加延迟确保 SDK 完全加载
     setTimeout(() => {
@@ -63,7 +50,7 @@ const {
               }
             }
           });
-          console.log('CozeChat 组件初始化成功:', chatClient);
+          console.log('CozeChat 组件初始化成功:');
         } catch (error) {
           console.error('CozeChat 组件初始化失败:', error);
         }
