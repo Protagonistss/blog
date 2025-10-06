@@ -26,6 +26,14 @@ const {
     PUBLIC_COZE_TOKEN: import.meta.env.PUBLIC_COZE_TOKEN ? '已设置' : '未设置'
   });
   
+  // 如果环境变量未设置，显示警告
+  if (!import.meta.env.PUBLIC_COZE_BOT_ID) {
+    console.warn('⚠️ PUBLIC_COZE_BOT_ID 环境变量未设置');
+  }
+  if (!import.meta.env.PUBLIC_COZE_TOKEN) {
+    console.warn('⚠️ PUBLIC_COZE_TOKEN 环境变量未设置');
+  }
+  
   // 检查 token 是否配置
   if (!token || token === '') {
     console.warn('Coze: 请通过环境变量 PUBLIC_COZE_TOKEN 配置 token');
