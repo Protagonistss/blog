@@ -271,7 +271,7 @@ const {
         // 处理响应
         if (response.code === 0 && response.data) {
           const assistantMessage = this.extractMessageFromResponse(response.data);
-          this.updateTempMessage(tempMessageId, assistantMessage);
+          this.typewriterEffect(tempMessageId, assistantMessage);
         } else {
           throw new Error(response.msg || '发送失败');
         }
@@ -363,6 +363,9 @@ const {
                   parsed.event = currentEvent;
                 }
                 
+                // 调试：记录事件类型和数据
+                console.log('收到事件:', parsed.event, '类型:', parsed.data?.type);
+                
                 // 处理增量消息（优先处理，这是主要的答案内容）
                 if (parsed.event === 'conversation.message.delta' && parsed.data?.content) {
                   fullResponse += parsed.data.content;
@@ -382,8 +385,8 @@ const {
                     fullResponse = messageData.content;
                     currentContent = messageData.content;
                     
-                    // 实时更新显示内容
-                    this.updateTempMessageContent(tempMessageId, currentContent);
+                    // 模拟逐步显示效果
+                    this.typewriterEffect(tempMessageId, messageData.content);
                   }
                   // 处理详细响应（包含工具输出内容）
                   else if (messageData.type === 'verbose' && messageData.content) {
@@ -393,8 +396,8 @@ const {
                       fullResponse = verboseContent;
                       currentContent = verboseContent;
                       
-                      // 实时更新显示内容
-                      this.updateTempMessageContent(tempMessageId, currentContent);
+                      // 模拟逐步显示效果
+                      this.typewriterEffect(tempMessageId, verboseContent);
                     }
                   }
                   // 处理 follow_up 类型的消息（建议问题）
@@ -412,9 +415,17 @@ const {
                     if (parsedContent) {
                       lastMessage = parsedContent;
                       fullResponse = parsedContent;
+                      currentContent = parsedContent;
+                      
+                      // 实时更新显示内容
+                      this.updateTempMessageContent(tempMessageId, currentContent);
                     } else {
                       lastMessage = messageData.content;
                       fullResponse = messageData.content;
+                      currentContent = messageData.content;
+                      
+                      // 实时更新显示内容
+                      this.updateTempMessageContent(tempMessageId, currentContent);
                     }
                   }
                 }
@@ -468,8 +479,8 @@ const {
             responseContent += `${index + 1}. ${question}\n`;
           });
           
-          // 实时更新最终内容（包含建议问题）
-          this.updateTempMessageContent(tempMessageId, responseContent);
+          // 使用打字机效果显示最终内容（包含建议问题）
+          this.typewriterEffect(tempMessageId, responseContent);
         }
       }
       // 如果没有主要回复，但有建议问题，使用建议问题
@@ -479,13 +490,13 @@ const {
           responseContent += `${index + 1}. ${question}\n`;
         });
         
-        // 实时更新最终内容
-        this.updateTempMessageContent(tempMessageId, responseContent);
+        // 使用打字机效果显示最终内容
+        this.typewriterEffect(tempMessageId, responseContent);
       }
       // 如果都没有，返回默认消息
       else {
         responseContent = '抱歉，我无法回答这个问题。请尝试其他问题。';
-        this.updateTempMessageContent(tempMessageId, responseContent);
+        this.typewriterEffect(tempMessageId, responseContent);
       }
       
       return { code: 0, data: { content: responseContent } };
@@ -681,12 +692,83 @@ const {
       this.scrollToBottom();
     }
 
+    typewriterEffect(messageId, content) {
+      const messageDiv = document.getElementById(messageId);
+      if (!messageDiv) {
+        console.log('未找到消息元素:', messageId);
+        return;
+      }
+      
+      console.log('开始打字机效果');
+      
+      // 清理内容，移除技术信息
+      const cleanedContent = this.cleanContent(content);
+      
+      // 查找内容容器，可能是加载状态或正常内容
+      let contentDiv = messageDiv.querySelector('.text-sm.text-gray-800');
+      if (!contentDiv) {
+        // 如果没有找到，可能是加载状态，需要替换整个内容区域
+        const messageContainer = messageDiv.querySelector('.flex-1');
+        if (messageContainer) {
+          messageContainer.innerHTML = `
+            <div class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap"></div>
+          `;
+          contentDiv = messageContainer.querySelector('.text-sm.text-gray-800');
+        }
+      }
+      
+      if (!contentDiv) return;
+      
+      // 开始打字机效果
+      let index = 0;
+      const speed = 30; // 每个字符的延迟（毫秒）
+      
+      const typeNext = () => {
+        if (index < cleanedContent.length) {
+          const currentText = cleanedContent.substring(0, index + 1);
+          contentDiv.innerHTML = this.formatMessage(currentText);
+          this.scrollToBottom();
+          index++;
+          setTimeout(typeNext, speed);
+        } else {
+          // 打字完成，检查是否有建议问题需要添加
+          this.checkAndAddFollowUpQuestions(messageId, content);
+        }
+      };
+      
+      // 开始打字
+      typeNext();
+    }
+
+    checkAndAddFollowUpQuestions(messageId, originalContent) {
+      // 这个方法会在流式响应完成后被调用，用于添加建议问题
+      // 暂时先不实现，因为建议问题是在流式响应过程中收集的
+    }
+
     updateTempMessageContent(messageId, content) {
       const messageDiv = document.getElementById(messageId);
-      if (!messageDiv) return;
+      if (!messageDiv) {
+        console.log('未找到消息元素:', messageId);
+        return;
+      }
       
-      const contentDiv = messageDiv.querySelector('.text-sm.text-gray-800');
-      if (contentDiv) {
+      console.log('更新消息内容');
+      
+      // 查找内容容器，可能是加载状态或正常内容
+      let contentDiv = messageDiv.querySelector('.text-sm.text-gray-800');
+      if (!contentDiv) {
+        // 如果没有找到，可能是加载状态，需要替换整个内容区域
+        const messageContainer = messageDiv.querySelector('.flex-1');
+        if (messageContainer) {
+          console.log('替换整个内容区域');
+          messageContainer.innerHTML = `
+            <div class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">${this.formatMessage(content)}</div>
+          `;
+          this.scrollToBottom();
+        }
+      } else {
+        // 如果找到了内容区域，直接更新
+        console.log('更新现有内容区域');
         contentDiv.innerHTML = this.formatMessage(content);
         this.scrollToBottom();
       }
