@@ -141,10 +141,10 @@ const siteDescription = "不迁怒，不二过。";
         </div>
       </nav>
     </header>
-    <main class="page-main-padding-bottom">
+    <main>
       <slot />
     </main>
-    <footer class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 page-footer-fixed">
+    <footer id="site-footer" class="border-t border-gray-200 dark:border-gray-700 bg-white/70 dark:bg-gray-900/60 backdrop-blur supports-[backdrop-filter]:backdrop-blur transition-colors duration-300 fixed left-0 right-0 bottom-0 footer-peek footer-animated">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center text-gray-600 dark:text-gray-400">
           <p>&copy; 2025 Protagonistss. 技术分享，欢迎转载，请注明出处。</p>
@@ -163,6 +163,7 @@ const siteDescription = "不迁怒，不二过。";
       document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const footerEl = document.getElementById('site-footer');
         
         if (mobileMenuButton && mobileMenu) {
           mobileMenuButton.addEventListener('click', function() {
@@ -229,6 +230,31 @@ const siteDescription = "不迁怒，不二过。";
         
         // 监听窗口大小变化，重新计算选中状态
         window.addEventListener('resize', updateActiveNavLink);
+
+        // 底部吸附视觉：接近底部时上滑显示，完全到底时实色
+        function updateFooterSolidState() {
+          if (!footerEl) return;
+          const doc = document.documentElement;
+          const threshold = 120; // 提前阈值：距离底部 120px 时开始上滑显示
+          const distanceToBottom = doc.scrollHeight - (window.innerHeight + window.scrollY);
+          const showFooter = distanceToBottom <= threshold;
+          const reachedBottom = distanceToBottom <= 2;
+
+          if (showFooter) {
+            footerEl.classList.add('footer-visible');
+          } else {
+            footerEl.classList.remove('footer-visible');
+          }
+
+          if (reachedBottom) {
+            footerEl.classList.add('footer-solid');
+          } else {
+            footerEl.classList.remove('footer-solid');
+          }
+        }
+        updateFooterSolidState();
+        window.addEventListener('scroll', updateFooterSolidState, { passive: true });
+        window.addEventListener('resize', updateFooterSolidState);
       });
 
       // --- 主题切换逻辑 ---

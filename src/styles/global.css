@@ -8,6 +8,18 @@ body { position: relative; }
 .page-main-padding-bottom { padding-bottom: 5rem; }
 .page-footer-fixed { position: fixed; left: 0; right: 0; bottom: 0; }
 
+/* Footer translucency -> solid when at page bottom */
+.footer-solid { background-color: rgb(255 255 255 / 1) !important; }
+.dark .footer-solid { background-color: rgb(17 24 39 / 1) !important; }
+
+/* Footer peek/slide-in behavior */
+.footer-peek { transform: translateY(calc(100% - 18px)); }
+@media (min-width: 640px) {
+  .footer-peek { transform: translateY(calc(100% - 22px)); }
+}
+.footer-visible { transform: translateY(0); }
+.footer-animated { transition: transform 260ms ease, background-color 240ms ease; will-change: transform; }
+
 /* 防闪烁的基础样式 */
 html {
   background-color: #ffffff;
