@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fixed footer layout helpers */
+html, body { height: 100%; }
+body { position: relative; }
+.page-main-padding-bottom { padding-bottom: 5rem; }
+.page-footer-fixed { position: fixed; left: 0; right: 0; bottom: 0; }
+
 /* 防闪烁的基础样式 */
 html {
   background-color: #ffffff;

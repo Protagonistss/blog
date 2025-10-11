@@ -45,7 +45,7 @@ const siteDescription = "不迁怒，不二过。";
     <meta name="twitter:description" content={description} />
     {image && <meta name="twitter:image" content={image} />}
   </head>
-  <body>
+  <body class="min-h-screen grid grid-rows-[auto_1fr_auto]">
     <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
       <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
@@ -139,10 +139,10 @@ const siteDescription = "不迁怒，不二过。";
         </div>
       </nav>
     </header>
-    <main>
+    <main class="page-main-padding-bottom">
       <slot />
     </main>
-    <footer class="border-t border-gray-200 dark:border-gray-700 mt-16">
+    <footer class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 page-footer-fixed">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center text-gray-600 dark:text-gray-400">
           <p>&copy; 2025 Protagonistss. 技术分享，欢迎转载，请注明出处。</p>
