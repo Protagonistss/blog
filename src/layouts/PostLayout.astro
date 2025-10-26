@@ -70,7 +70,7 @@ const relatedPosts = getRelatedPosts(
             <button 
               id="copyArticleBtn"
               class="flex-shrink-0 p-3 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 group"
-              title="复制文章内容 (Ctrl+C)"
+              title="复制文章 Markdown 内容"
               aria-label="复制文章内容"
               data-original-content={content || ''}
               data-title={frontmatter.title}
@@ -382,7 +382,7 @@ const relatedPosts = getRelatedPosts(
             copyArticleBtn.innerHTML = originalHTML;
             copyArticleBtn.classList.remove('text-green-600', 'dark:text-green-400');
             copyArticleBtn.classList.add('text-gray-500', 'dark:text-gray-400');
-            copyArticleBtn.title = '复制文章内容 (Ctrl+C)';
+            copyArticleBtn.title = '复制文章 Markdown 内容';
           }, 2000);
           
         } catch (err) {
@@ -420,7 +420,7 @@ const relatedPosts = getRelatedPosts(
             copyArticleBtn.innerHTML = originalHTML;
             copyArticleBtn.classList.remove('text-green-600', 'dark:text-green-400');
             copyArticleBtn.classList.add('text-gray-500', 'dark:text-gray-400');
-            copyArticleBtn.title = '复制文章内容 (Ctrl+C)';
+            copyArticleBtn.title = '复制文章 Markdown 内容';
           }, 2000);
         }
       });
@@ -460,15 +460,118 @@ const relatedPosts = getRelatedPosts(
     // 键盘快捷键支持
     function initKeyboardShortcuts() {
       document.addEventListener('keydown', (e) => {
-        // Ctrl+C 或 Cmd+C (当不在输入框中时)
+        // 移除 Ctrl+C 复制整个文章的功能，让用户正常复制选中的文本
+        // 保留复制按钮的点击功能，但不再拦截 Ctrl+C 快捷键
         const target = e.target as HTMLElement;
-        if ((e.ctrlKey || e.metaKey) && e.key === 'c' && target && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
-          const copyBtn = document.getElementById('copyArticleBtn') as HTMLButtonElement;
-          if (copyBtn && !copyBtn.disabled) {
-            e.preventDefault();
-            copyBtn.click();
-          }
+        
+        // 只在特定情况下阻止默认行为（比如在复制按钮上按 Ctrl+C）
+        if ((e.ctrlKey || e.metaKey) && e.key === 'c' && target && target.id === 'copyArticleBtn') {
+          e.preventDefault();
+          target.click();
         }
+      });
+    }
+
+    // 代码块复制功能
+    function initCodeCopyButtons() {
+      // 为所有代码块添加复制按钮
+      const codeBlocks = document.querySelectorAll('.prose pre');
+      
+      codeBlocks.forEach((pre, index) => {
+        // 创建包装容器
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper group';
+        
+        // 创建复制按钮
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'code-copy-btn';
+        copyBtn.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+        `;
+        copyBtn.title = '复制代码';
+        
+        // 获取代码内容
+        const codeElement = pre.querySelector('code');
+        const codeText = codeElement ? codeElement.textContent || '' : pre.textContent || '';
+        
+        // 添加点击事件
+        copyBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          try {
+            await navigator.clipboard.writeText(codeText);
+            
+            // 更新按钮状态
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = `
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            `;
+            copyBtn.title = '已复制';
+            
+            // 2秒后恢复原状
+            setTimeout(() => {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              `;
+              copyBtn.title = '复制代码';
+            }, 2000);
+            
+          } catch (err) {
+            console.error('复制失败:', err);
+            
+            // 降级方案：使用传统的复制方法
+            const textArea = document.createElement('textarea');
+            textArea.value = codeText;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+              document.execCommand('copy');
+              
+              // 更新按钮状态
+              copyBtn.classList.add('copied');
+              copyBtn.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              `;
+              copyBtn.title = '已复制';
+              
+              setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = `
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                `;
+                copyBtn.title = '复制代码';
+              }, 2000);
+              
+            } catch (fallbackErr) {
+              console.error('降级复制也失败:', fallbackErr);
+              alert('复制失败，请手动选择并复制代码');
+            } finally {
+              document.body.removeChild(textArea);
+            }
+          }
+        });
+        
+        // 包装代码块
+        pre.parentNode?.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        wrapper.appendChild(copyBtn);
       });
     }
 
@@ -478,6 +581,7 @@ const relatedPosts = getRelatedPosts(
       initShareButtons();
       initCopyArticle();
       initKeyboardShortcuts();
+      initCodeCopyButtons();
     });
   </script>
 </BaseLayout>

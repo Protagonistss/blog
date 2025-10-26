@@ -78,6 +78,11 @@ body {
   /* 文章内容整体样式 */
   .prose {
     @apply text-gray-800 dark:text-gray-200 leading-relaxed;
+    /* 确保文本可以选择和复制 */
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
   
   /* 标题样式 */
@@ -130,15 +135,54 @@ body {
   
   /* 代码块样式 */
   .prose pre {
-    @apply bg-gray-900 dark:bg-gray-800 text-gray-100 rounded-xl p-6 overflow-x-auto mb-6 border border-gray-700 dark:border-gray-600 shadow-lg;
+    @apply bg-gray-900 dark:bg-gray-800 text-gray-100 rounded-xl p-6 overflow-x-auto mb-6 border border-gray-700 dark:border-gray-600 shadow-lg relative;
+    /* 确保代码块可以选择和复制 */
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+  }
+  
+  /* 代码块复制按钮容器 */
+  .code-block-wrapper {
+    @apply relative;
+  }
+  
+  /* 代码块复制按钮 */
+  .code-copy-btn {
+    @apply absolute top-3 right-3 p-2 bg-gray-800 dark:bg-gray-700 text-gray-300 dark:text-gray-400 hover:text-white hover:bg-gray-700 dark:hover:bg-gray-600 rounded-md text-sm font-medium transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer border border-gray-600 dark:border-gray-500;
+    z-index: 10;
+  }
+  
+  .code-copy-btn:hover {
+    @apply shadow-md;
+  }
+  
+  .code-copy-btn.copied {
+    @apply text-green-400 bg-green-900/20 border-green-600;
+  }
+  
+  /* 代码块悬停时显示复制按钮 */
+  .code-block-wrapper:hover .code-copy-btn {
+    @apply opacity-100;
   }
   
   .prose code {
     @apply bg-gray-100 dark:bg-gray-800 text-red-600 dark:text-red-400 px-2 py-1 rounded-md text-sm font-mono font-medium border border-gray-200 dark:border-gray-700;
+    /* 确保行内代码可以选择和复制 */
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
   
   .prose pre code {
     @apply bg-transparent text-gray-100 p-0 border-none text-sm;
+    /* 确保代码块内的代码可以选择和复制 */
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
   
   /* 引用样式 */
