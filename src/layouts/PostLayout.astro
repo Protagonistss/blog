@@ -199,21 +199,6 @@ const relatedPosts = getRelatedPosts(
             </div>
           ) : null}
           
-          <!-- 目录 -->
-          <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-              </svg>
-              目录
-            </h3>
-            <div id="toc" class="text-sm">
-              <div class="text-gray-600 dark:text-gray-400">
-                <p>正在生成目录...</p>
-              </div>
-            </div>
-          </div>
-          
           <!-- 分享按钮 -->
           <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -234,6 +219,35 @@ const relatedPosts = getRelatedPosts(
           </div>
         </div>
       </aside>
+    </div>
+    
+    <!-- 漂浮目录导航 -->
+    <div id="floatingToc" class="floating-toc">
+      <button id="tocToggle" class="toc-toggle" title="目录导航">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+        </svg>
+      </button>
+      <div id="tocPanel" class="toc-panel">
+        <div class="toc-header">
+          <h3 class="toc-title">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+            </svg>
+            文章目录
+          </h3>
+          <button id="tocClose" class="toc-close" title="关闭">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div id="toc" class="toc-content">
+          <div class="text-gray-600 dark:text-gray-400">
+            <p>正在生成目录...</p>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!-- 评论区域 -->
@@ -272,7 +286,7 @@ const relatedPosts = getRelatedPosts(
   <script>
     // 生成目录功能
     function generateTOC() {
-      const tocContainer = document.getElementById('toc');
+      const tocContainer = document.querySelector('.toc-content');
       const headings = document.querySelectorAll('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
       
       if (!tocContainer) return;
@@ -319,7 +333,7 @@ const relatedPosts = getRelatedPosts(
 
     // 添加滚动监听，高亮当前章节
     function addScrollListener() {
-      const tocLinks = document.querySelectorAll('#toc a');
+      const tocLinks = document.querySelectorAll('.toc-content a');
       const headings = document.querySelectorAll('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
       
       function updateActiveTOC() {
@@ -332,9 +346,9 @@ const relatedPosts = getRelatedPosts(
         });
         
         tocLinks.forEach(link => {
-          link.classList.remove('text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20');
+          link.classList.remove('text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20', 'font-semibold');
           if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20');
+            link.classList.add('text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20', 'font-semibold');
           }
         });
       }
@@ -575,6 +589,48 @@ const relatedPosts = getRelatedPosts(
       });
     }
 
+    // 漂浮目录控制
+    function initFloatingToc() {
+      const tocToggle = document.getElementById('tocToggle');
+      const tocClose = document.getElementById('tocClose');
+      const tocPanel = document.getElementById('tocPanel');
+      
+      if (!tocToggle || !tocClose || !tocPanel) return;
+      
+      // 展开目录
+      tocToggle.addEventListener('click', () => {
+        tocPanel.classList.add('active');
+        tocToggle.style.display = 'none';
+      });
+      
+      // 关闭目录
+      tocClose.addEventListener('click', () => {
+        tocPanel.classList.remove('active');
+        tocToggle.style.display = 'flex';
+      });
+      
+      // 点击目录链接后不自动关闭，保持展开状态
+      // 用户可以通过关闭按钮、点击外部或按ESC键来关闭
+      
+      // 点击页面其他地方关闭目录
+      document.addEventListener('click', (e) => {
+        const floatingToc = document.getElementById('floatingToc');
+        const target = e.target as Node;
+        if (floatingToc && target && !floatingToc.contains(target) && tocPanel.classList.contains('active')) {
+          tocPanel.classList.remove('active');
+          tocToggle.style.display = 'flex';
+        }
+      });
+      
+      // ESC键关闭目录
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && tocPanel.classList.contains('active')) {
+          tocPanel.classList.remove('active');
+          tocToggle.style.display = 'flex';
+        }
+      });
+    }
+
     // 页面加载完成后初始化
     document.addEventListener('DOMContentLoaded', () => {
       generateTOC();
@@ -582,6 +638,7 @@ const relatedPosts = getRelatedPosts(
       initCopyArticle();
       initKeyboardShortcuts();
       initCodeCopyButtons();
+      initFloatingToc();
     });
   </script>
 </BaseLayout>

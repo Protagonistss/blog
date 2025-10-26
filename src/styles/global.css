@@ -258,3 +258,79 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-400 dark:bg-gray-500;
 }
+
+/* 漂浮目录导航样式 */
+.floating-toc {
+  @apply fixed right-4 top-32 z-40;
+}
+
+/* 目录切换按钮 */
+.toc-toggle {
+  @apply w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110;
+}
+
+.toc-toggle:hover {
+  @apply shadow-xl;
+}
+
+/* 目录面板 */
+.toc-panel {
+  @apply fixed right-4 top-32 w-80 max-h-[70vh] bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl transform translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
+}
+
+.toc-panel.active {
+  @apply translate-x-0 opacity-100 pointer-events-auto;
+}
+
+/* 目录头部 */
+.toc-header {
+  @apply flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700;
+}
+
+.toc-title {
+  @apply text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2;
+}
+
+.toc-close {
+  @apply p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors;
+}
+
+/* 目录内容 */
+.toc-content {
+  @apply p-4 text-sm overflow-y-auto;
+  max-height: calc(70vh - 80px);
+}
+
+/* 目录滚动条样式 */
+.toc-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.toc-content::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.toc-content::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+.toc-content::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* 响应式：小屏幕上调整位置 */
+@media (max-width: 1280px) {
+  .floating-toc {
+    @apply right-2 top-24;
+  }
+  
+  .toc-panel {
+    @apply right-2 top-24 w-72;
+  }
+}
+
+@media (max-width: 768px) {
+  .toc-panel {
+    @apply w-[calc(100vw-2rem)] right-2 left-2;
+  }
+}
