@@ -8,17 +8,223 @@ body { position: relative; }
 .page-main-padding-bottom { padding-bottom: 5rem; }
 .page-footer-fixed { position: fixed; left: 0; right: 0; bottom: 0; }
 
+/* 为所有页面内容添加底部安全距离，防止被固定footer遮挡 */
+main {
+  padding-bottom: 6rem; /* 为footer预留足够空间 */
+}
+
+/* 确保文章页面有足够的底部间距 */
+.prose {
+  margin-bottom: 2rem;
+}
+
+/* 为评论区域添加额外间距 */
+.comments-section {
+  margin-bottom: 2rem;
+}
+
+/* 文章编辑器样式 */
+#articleEditor {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 编辑器表单样式 */
+#articleEditor input,
+#articleEditor textarea {
+  transition: all 0.2s ease;
+}
+
+#articleEditor input:focus,
+#articleEditor textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+}
+
+/* 编辑器工具栏样式 */
+#articleEditor .bg-gray-50 {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+.dark #articleEditor .bg-gray-700 {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+}
+
+/* 预览模式样式 */
+#previewContent {
+  min-height: 400px;
+  line-height: 1.6;
+}
+
+#previewContent h1,
+#previewContent h2,
+#previewContent h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+#previewContent h1 {
+  font-size: 1.875rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+#previewContent h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.25rem;
+}
+
+#previewContent h3 {
+  font-size: 1.25rem;
+}
+
+#previewContent pre {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+#previewContent code {
+  background: #f3f4f6;
+  color: #dc2626;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+#previewContent pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+#previewContent blockquote {
+  border-left: 4px solid #3b82f6;
+  background: #eff6ff;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.dark #previewContent blockquote {
+  background: #1e3a8a;
+}
+
+/* 编辑器按钮悬停效果 */
+#articleEditor button {
+  transition: all 0.2s ease;
+}
+
+#articleEditor button:hover {
+  transform: translateY(-1px);
+}
+
+#saveBtn:hover {
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+#cancelEditBtn:hover {
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+#generateSuggestionBtn:hover {
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* 编辑建议区域样式 */
+#editSuggestions {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* 差异对比样式 */
+#diffContent .text-red-600 {
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+#diffContent .text-green-600 {
+  background-color: rgba(34, 197, 94, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.dark #diffContent .text-red-400 {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.dark #diffContent .text-green-400 {
+  background-color: rgba(34, 197, 94, 0.2);
+}
+
+/* 建议内容区域样式 */
+#suggestionMarkdown {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.dark #suggestionMarkdown {
+  background: #1e293b;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+/* 建议信息卡片样式 */
+#suggestionInfo {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.dark #suggestionInfo {
+  background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+}
+
 /* Footer translucency -> solid when at page bottom */
 .footer-solid { background-color: rgb(255 255 255 / 1) !important; }
 .dark .footer-solid { background-color: rgb(17 24 39 / 1) !important; }
 
 /* Footer peek/slide-in behavior */
-.footer-peek { transform: translateY(calc(100% - 18px)); }
-@media (min-width: 640px) {
-  .footer-peek { transform: translateY(calc(100% - 22px)); }
+.footer-peek { 
+  transform: translateY(calc(100% - 20px)); 
+  opacity: 0.7;
 }
-.footer-visible { transform: translateY(0); }
-.footer-animated { transition: transform 260ms ease, background-color 240ms ease; will-change: transform; }
+@media (min-width: 640px) {
+  .footer-peek { 
+    transform: translateY(calc(100% - 24px)); 
+    opacity: 0.8;
+  }
+}
+.footer-visible { 
+  transform: translateY(0); 
+  opacity: 1;
+}
+.footer-animated { 
+  transition: transform 300ms ease, background-color 300ms ease, opacity 300ms ease; 
+  will-change: transform, opacity; 
+}
 
 /* 防闪烁的基础样式 */
 html {

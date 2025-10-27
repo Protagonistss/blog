@@ -230,11 +230,12 @@ const siteDescription = "不迁怒，不二过。";
         function updateFooterSolidState() {
           if (!footerEl) return;
           const doc = document.documentElement;
-          const threshold = 120; // 提前阈值：距离底部 120px 时开始上滑显示
+          const threshold = 80; // 提前阈值：距离底部 80px 时开始上滑显示
           const distanceToBottom = doc.scrollHeight - (window.innerHeight + window.scrollY);
           const showFooter = distanceToBottom <= threshold;
           const reachedBottom = distanceToBottom <= 2;
 
+          // 始终显示footer，但根据滚动位置调整透明度
           if (showFooter) {
             footerEl.classList.add('footer-visible');
           } else {
