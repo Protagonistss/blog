@@ -1,0 +1,246 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import bcryptToolScript from '../../shared/bcrypt-timestamp.ts?url';
+---
+
+<Layout title="bcrypt 加密与时间戳转换" description="在线进行 bcrypt 加密与时间/时间戳相互转换（本地计算，安全可靠）">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Header - 简洁版 -->
+    <header class="mb-6 text-center">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        bcrypt 加密 & 时间戳转换
+      </h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        本地计算，安全可靠 · 数据不上传
+      </p>
+    </header>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- bcrypt 加密工具 -->
+      <section class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-lg transition-shadow">
+        <!-- Section Header -->
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white">bcrypt 加密</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">密码哈希生成与验证</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- 加密区域 -->
+          <div class="space-y-3">
+            <div>
+              <label for="bcrypt-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                待加密文本
+              </label>
+              <textarea 
+                id="bcrypt-password" 
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 p-2.5 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                rows="2" 
+                placeholder="输入要加密的密码或文本..."
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="bcrypt-rounds" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  加密强度
+                </label>
+                <input 
+                  id="bcrypt-rounds" 
+                  type="number" 
+                  min="4" 
+                  max="15" 
+                  value="10" 
+                  class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 p-2 text-sm font-mono focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                />
+              </div>
+              <div class="flex items-end">
+                <button 
+                  id="bcrypt-generate" 
+                  class="w-full flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-2 text-sm transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                  生成 Hash
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label for="bcrypt-hash" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                加密结果
+              </label>
+              <textarea 
+                id="bcrypt-hash" 
+                readonly 
+                class="w-full rounded-lg border border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/50 p-2.5 text-xs font-mono text-gray-700 dark:text-gray-300 focus:outline-none" 
+                rows="2"
+                placeholder="加密后的哈希值将显示在这里..."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- 分割线 -->
+          <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+
+          <!-- 验证区域 -->
+          <div class="space-y-3">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs">✓</span>
+              验证哈希匹配
+            </h3>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="bcrypt-verify-text" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
+                  待验证的明文
+                </label>
+                <input 
+                  id="bcrypt-verify-text" 
+                  type="text" 
+                  class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 p-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                  placeholder="输入原始文本" 
+                />
+              </div>
+              <div>
+                <label for="bcrypt-verify-hash" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
+                  待验证的 Hash
+                </label>
+                <input 
+                  id="bcrypt-verify-hash" 
+                  type="text" 
+                  class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 p-2 text-sm font-mono focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" 
+                  placeholder="输入 bcrypt 哈希" 
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button 
+                id="bcrypt-verify" 
+                class="flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-sm transition-colors"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                验证匹配
+              </button>
+              <span id="bcrypt-verify-result" class="text-sm font-medium"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 时间戳转换工具 -->
+      <section class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-lg transition-shadow">
+        <!-- Section Header -->
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div class="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white">时间戳转换</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">时间与时间戳双向转换</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- 输入区域 -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="timestamp-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                时间戳（秒/毫秒）
+              </label>
+              <input 
+                id="timestamp-input" 
+                type="text" 
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 p-2.5 text-sm font-mono focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all" 
+                placeholder="1698765432" 
+              />
+            </div>
+            <div>
+              <label for="datetime-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                日期时间
+              </label>
+              <input 
+                id="datetime-input" 
+                type="text" 
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 p-2.5 text-sm font-mono focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all" 
+                placeholder="2024-10-30 12:00:00" 
+              />
+            </div>
+          </div>
+
+          <button 
+            id="now-fill" 
+            class="w-full flex items-center justify-center gap-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium px-3 py-2 text-sm transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            填入当前时间
+          </button>
+
+          <!-- 转换按钮 -->
+          <div class="grid grid-cols-2 gap-3">
+            <button 
+              id="to-datetime" 
+              class="flex items-center justify-center gap-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium px-3 py-2 text-sm transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+              时间戳→日期
+            </button>
+            <button 
+              id="to-timestamp" 
+              class="flex items-center justify-center gap-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium px-3 py-2 text-sm transition-colors"
+            >
+              <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+              日期→时间戳
+            </button>
+          </div>
+
+          <!-- 结果显示 -->
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
+                本地时区
+              </label>
+              <div id="local-result" class="text-sm font-mono text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900 rounded-lg p-2.5 min-h-[38px] border border-gray-200 dark:border-gray-700 flex items-center"></div>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
+                UTC 时间
+              </label>
+              <div id="utc-result" class="text-sm font-mono text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900 rounded-lg p-2.5 min-h-[38px] border border-gray-200 dark:border-gray-700 flex items-center"></div>
+            </div>
+          </div>
+
+          <!-- 提示信息 -->
+          <div class="flex items-start gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg">
+            <svg class="w-4 h-4 text-gray-600 dark:text-gray-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            <div class="text-xs text-gray-600 dark:text-gray-400">
+              支持 10 位秒级和 13 位毫秒级时间戳，日期格式：YYYY-MM-DD HH:mm:ss
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src={bcryptToolScript}></script>
+</Layout>
