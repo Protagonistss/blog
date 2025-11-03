@@ -53,7 +53,7 @@ BREAKING CHANGE: 重构了用户认证接口
 | `ci` | CI配置修改 | `ci: 添加自动化部署脚本` |
 | `revert` | 回滚某个commit | `revert: 回滚用户认证功能` |
 
-## 🎯 Scope 范围 (可选)
+## Scope 范围 (可选)
 
 Scope 用于指定本次提交影响的范围：
 
