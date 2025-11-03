@@ -1,3 +1,12 @@
+---
+title: "Git Commit 规范"
+description: "规范commit信息，可用于提交规范和命令"
+pubDate: "2025-11-03 15:31:18"
+tags: ["prompts"]
+categories: ["AI"]
+draft: false
+techStack: "AI"
+---
 
 # Git Commit 规范
 
