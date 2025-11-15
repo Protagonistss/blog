@@ -1,3 +1,13 @@
+---
+title: "uv 使用手册"
+description: "uv使用手册"
+tags: ["uv", "python"]
+categories: ["windows"]
+draft: false
+techStack: "env"
+pubDate: "2025-11-15 13:48:43.000Z"
+---
+
 # uv 使用手册（Windows）
 
 `uv` 是一个基于 Rust 构建的超高速 Python 工具链，集成了以下功能：
