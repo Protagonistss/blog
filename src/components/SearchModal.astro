@@ -1,34 +1,36 @@
----
-// 搜索模态框组件
+--- 
+// 搜索模态框组件 - 已升级为全站索引搜索 
 ---
 
-<div id="search-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+<div id="search-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" role="dialog" aria-modal="true">
   <div class="flex min-h-screen items-center justify-center p-4">
     <!-- 背景遮罩 -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" id="search-backdrop"></div>
+    <div class="fixed inset-0 bg-zinc-900/80 backdrop-blur-sm transition-opacity" id="search-backdrop"></div>
     
     <!-- 搜索框 -->
-    <div class="relative w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+    <div class="relative w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800">
       <!-- 搜索输入框 -->
-      <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-        <div class="relative">
+      <div class="p-4 border-b border-zinc-200 dark:border-zinc-800">
+        <div class="relative group">
           <input
             type="text"
             id="search-input"
-            placeholder="搜索文章、标签、分类..."
-            class="w-full px-4 py-3 pl-12 pr-4 text-lg bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            placeholder="Search articles, tags, topics..."
+            class="w-full px-4 py-3 pl-12 pr-12 text-lg bg-zinc-50 dark:bg-zinc-800 border border-transparent dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white dark:focus:bg-zinc-950 transition-all text-zinc-900 dark:text-zinc-100 placeholder-zinc-400"
             autocomplete="off"
           />
-          <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400 group-focus-within:text-blue-500 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
           </div>
           <button
             id="search-close"
-            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all"
           >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span class="sr-only">Close</span>
+            <kbd class="hidden sm:inline-block px-2 py-0.5 text-xs font-sans font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700">ESC</kbd>
+            <svg class="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
@@ -36,20 +38,33 @@
       </div>
       
       <!-- 搜索结果 -->
-      <div class="max-h-96 overflow-y-auto" id="search-results">
-        <div class="p-6 text-center text-gray-500 dark:text-gray-400">
-          <svg class="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-          <p>输入关键词开始搜索...</p>
+      <div class="max-h-[60vh] overflow-y-auto" id="search-results">
+        <!-- 初始空状态 -->
+        <div class="p-12 text-center text-zinc-500 dark:text-zinc-400">
+          <div class="w-16 h-16 mx-auto mb-4 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center text-zinc-300 dark:text-zinc-600">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+          <p class="text-base font-medium">Type to start searching...</p>
+          <p class="text-xs mt-2 text-zinc-400">Search across titles, tags, and categories</p>
         </div>
       </div>
       
-      <!-- 搜索提示 -->
-      <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-b-2xl">
-        <div class="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <span class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded">按 Enter 搜索</span>
-          <span class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded">按 Esc 关闭</span>
+      <!-- 底部提示 -->
+      <div class="p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-b-2xl border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs text-zinc-500 dark:text-zinc-400">
+        <div class="flex gap-4">
+          <span class="flex items-center gap-1">
+            <kbd class="px-1.5 py-0.5 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded">↵</kbd>
+            to select
+          </span>
+          <span class="flex items-center gap-1">
+            <kbd class="px-1.5 py-0.5 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded">↑↓</kbd>
+            to navigate
+          </span>
+        </div>
+        <div id="search-status" class="hidden sm:block">
+          <!-- 这里会动态显示索引加载状态 -->
         </div>
       </div>
     </div>
@@ -57,7 +72,6 @@
 </div>
 
 <script>
-  // 搜索功能实现
   class SearchModal {
     constructor() {
       this.modal = document.getElementById('search-modal');
@@ -65,60 +79,45 @@
       this.results = document.getElementById('search-results');
       this.backdrop = document.getElementById('search-backdrop');
       this.closeBtn = document.getElementById('search-close');
+      this.statusEl = document.getElementById('search-status');
       
       this.posts = [];
       this.isOpen = false;
+      this.selectedIndex = -1;
       
       this.init();
     }
     
-    async init() {
-      // 加载文章数据
-      await this.loadPosts();
-      
-      // 绑定事件
+    init() {
       this.bindEvents();
     }
     
+    // 懒加载：只有在第一次打开时才去 fetch 数据
     async loadPosts() {
+      if (this.posts.length > 0) return; // 已经加载过
+      
+      if (this.statusEl) this.statusEl.textContent = 'Loading index...';
+      
       try {
-        // 直接使用静态数据，不依赖API
-        this.posts = await this.getFallbackPosts();
+        const response = await fetch('/api/search.json');
+        if (!response.ok) throw new Error('Failed to load search index');
+        this.posts = await response.json();
+        
+        if (this.statusEl) this.statusEl.textContent = `${this.posts.length} posts indexed`;
+        console.log(`[Search] Indexed ${this.posts.length} posts`);
+        
+        // 如果用户已经在输入了，立即触发一次搜索
+        if (this.input.value.trim()) {
+            this.search(this.input.value);
+        }
       } catch (error) {
-        console.warn('无法加载文章数据');
-        this.posts = [];
+        console.error('Error loading search index:', error);
+        if (this.statusEl) this.statusEl.textContent = 'Error loading index';
       }
     }
     
-    async getFallbackPosts() {
-      // 从页面中提取文章信息作为备用数据
-      const postElements = document.querySelectorAll('[data-post-title]');
-      const posts = [];
-      
-      postElements.forEach(element => {
-        const title = element.getAttribute('data-post-title');
-        const slug = element.getAttribute('data-post-slug');
-        const description = element.getAttribute('data-post-description') || '';
-        const tags = element.getAttribute('data-post-tags')?.split(',') || [];
-        const categories = element.getAttribute('data-post-categories')?.split(',') || [];
-        
-        if (title && slug) {
-          posts.push({
-            title,
-            slug,
-            description,
-            tags,
-            categories,
-            content: '' // 实际项目中应该包含文章内容
-          });
-        }
-      });
-      
-      return posts;
-    }
-    
     bindEvents() {
-      // 打开搜索框
+      // 快捷键打开 (Cmd+K / Ctrl+K)
       document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
           e.preventDefault();
@@ -126,38 +125,81 @@
         }
       });
       
-      // 搜索按钮点击
+      // 绑定所有的触发按钮
       document.querySelectorAll('[data-search-trigger]').forEach(btn => {
-        btn.addEventListener('click', () => this.open());
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.open()
+        });
       });
       
-      // 关闭搜索框
+      // 关闭
       this.closeBtn.addEventListener('click', () => this.close());
       this.backdrop.addEventListener('click', () => this.close());
       
-      // 搜索输入
+      // 输入事件
       this.input.addEventListener('input', (e) => {
+        this.selectedIndex = -1; // 重置选择
         this.search(e.target.value);
       });
       
-      // 键盘事件
-      this.input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          this.close();
-        } else if (e.key === 'Enter') {
-          const firstResult = this.results.querySelector('a');
-          if (firstResult) {
-            firstResult.click();
-          }
+      // 键盘导航
+      this.input.addEventListener('keydown', (e) => this.handleKeyNavigation(e));
+    }
+    
+    handleKeyNavigation(e) {
+      if (e.key === 'Escape') {
+        this.close();
+        return;
+      }
+      
+      const items = this.results.querySelectorAll('a.search-result-item');
+      if (items.length === 0) return;
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.selectedIndex = Math.min(this.selectedIndex + 1, items.length - 1);
+        this.updateSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+        this.updateSelection(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (this.selectedIndex >= 0 && items[this.selectedIndex]) {
+          items[this.selectedIndex].click();
+        } else if (items.length > 0) {
+           // 默认回车选择第一个
+           items[0].click();
+        }
+      }
+    }
+    
+    updateSelection(items) {
+      items.forEach((item, index) => {
+        if (index === this.selectedIndex) {
+          item.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-200', 'dark:border-blue-800');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-200', 'dark:border-blue-800');
         }
       });
     }
     
     open() {
+      if (this.isOpen) return;
+      
       this.modal.classList.remove('hidden');
-      this.input.focus();
+      // 动画类处理
+      requestAnimationFrame(() => {
+          this.input.focus();
+      });
+      
       this.isOpen = true;
       document.body.style.overflow = 'hidden';
+      
+      // 打开时加载数据
+      this.loadPosts();
     }
     
     close() {
@@ -166,6 +208,7 @@
       this.results.innerHTML = this.getEmptyState();
       this.isOpen = false;
       document.body.style.overflow = '';
+      this.selectedIndex = -1;
     }
     
     search(query) {
@@ -174,10 +217,28 @@
         return;
       }
       
+      if (this.posts.length === 0) {
+        // 索引还没加载完
+        this.results.innerHTML = `
+            <div class="p-8 text-center text-zinc-500">
+                <div class="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2"></div>
+                Searching...
+            </div>
+        `;
+        return;
+      }
+      
+      const normalizedQuery = query.toLowerCase();
+      
+      // 简单且高效的搜索逻辑
       const results = this.posts.filter(post => {
-        const searchText = `${post.title} ${post.description} ${post.tags.join(' ')} ${post.categories.join(' ')}`.toLowerCase();
-        return searchText.includes(query.toLowerCase());
-      });
+        const titleMatch = post.title.toLowerCase().includes(normalizedQuery);
+        const descMatch = post.description.toLowerCase().includes(normalizedQuery);
+        const tagMatch = post.tags.some(tag => tag.toLowerCase().includes(normalizedQuery));
+        const catMatch = post.categories.some(cat => cat.toLowerCase().includes(normalizedQuery));
+        
+        return titleMatch || descMatch || tagMatch || catMatch;
+      }).slice(0, 20); // 限制显示前20条
       
       this.renderResults(results, query);
     }
@@ -185,31 +246,33 @@
     renderResults(results, query) {
       if (results.length === 0) {
         this.results.innerHTML = `
-          <div class="p-6 text-center text-gray-500 dark:text-gray-400">
-            <svg class="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.709"/>
-            </svg>
-            <p>没有找到相关文章</p>
-            <p class="text-sm mt-2">尝试使用其他关键词</p>
+          <div class="p-12 text-center text-zinc-500 dark:text-zinc-400">
+            <p class="text-lg mb-2">🤔 No results found</p>
+            <p class="text-sm">We couldn't find anything matching "${query}"</p>
           </div>
         `;
         return;
       }
       
-      const resultsHtml = results.map(post => `
-        <a href="/posts/${post.slug}" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-600 last:border-b-0">
-          <div class="flex items-start gap-3">
-            <div class="flex-1">
-              <h3 class="font-semibold text-gray-900 dark:text-white mb-1">${this.highlightText(post.title, query)}</h3>
-              ${post.description ? `<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${this.highlightText(post.description, query)}</p>` : ''}
-              <div class="flex flex-wrap gap-1">
-                ${post.categories.map(cat => `<span class="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded text-xs">${cat}</span>`).join('')}
-                ${post.tags.map(tag => `<span class="px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded text-xs">#${tag}</span>`).join('')}
+      const resultsHtml = results.map((post, index) => `
+        <a href="/posts/${post.slug}" class="search-result-item block p-4 border-b border-zinc-100 dark:border-zinc-800 last:border-b-0 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-zinc-900 dark:text-zinc-100 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                ${this.highlightText(post.title, query)}
+              </h3>
+              ${post.description ? `<p class="text-sm text-zinc-500 dark:text-zinc-400 mb-2 line-clamp-1">${this.highlightText(post.description, query)}</p>` : ''}
+              <div class="flex flex-wrap gap-2 items-center text-xs">
+                ${post.categories[0] ? `<span class="px-1.5 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded border border-blue-100 dark:border-blue-800/50 font-medium">${post.categories[0]}</span>` : ''}
+                <span class="text-zinc-300 dark:text-zinc-600">|</span>
+                <span class="text-zinc-400">${new Date(post.pubDate).toLocaleDateString()}</span>
               </div>
             </div>
-            <svg class="w-5 h-5 text-gray-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
+            <div class="text-zinc-300 group-hover:text-blue-500 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
           </div>
         </a>
       `).join('');
@@ -218,24 +281,28 @@
     }
     
     highlightText(text, query) {
-      if (!query) return text;
-      const regex = new RegExp(`(${query})`, 'gi');
-      return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+      if (!query || !text) return text;
+      // 简单的转义，防止正则报错
+      const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${safeQuery})`, 'gi');
+      return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-900/50 text-zinc-900 dark:text-yellow-100 rounded-sm px-0.5">$1</mark>');
     }
     
     getEmptyState() {
       return `
-        <div class="p-6 text-center text-gray-500 dark:text-gray-400">
-          <svg class="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-          <p>输入关键词开始搜索...</p>
+        <div class="p-12 text-center text-zinc-500 dark:text-zinc-400">
+          <div class="w-16 h-16 mx-auto mb-4 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center text-zinc-300 dark:text-zinc-600">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+          <p class="text-base font-medium">Type to start searching...</p>
         </div>
       `;
     }
   }
   
-  // 初始化搜索功能
+  // 初始化
   document.addEventListener('DOMContentLoaded', () => {
     new SearchModal();
   });
