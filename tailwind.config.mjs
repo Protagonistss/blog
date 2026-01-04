@@ -8,7 +8,7 @@ export default {
         'background': 'var(--color-background)',
         'text': 'var(--color-text)',
         primary: {
-          50: '#f0f9ff',
+          50: '#eff6ff',
           100: '#dbeafe',
           200: '#bfdbfe',
           300: '#93c5fd',
@@ -24,18 +24,23 @@ export default {
         DEFAULT: {
           css: {
             maxWidth: 'none',
-            color: '#374151',
+            color: '#333333',
             a: {
-              color: '#3b82f6',
+              color: '#2563eb', // primary-600
+              textDecoration: 'none',
+              fontWeight: '500',
+              transition: 'all 0.2s',
               '&:hover': {
-                color: '#1d4ed8',
+                color: '#1d4ed8', // primary-700
+                textDecoration: 'underline',
               },
             },
             code: {
-              color: '#e11d48',
-              backgroundColor: '#f1f5f9',
-              padding: '0.25rem 0.375rem',
+              color: '#1f2937',
+              backgroundColor: '#f3f4f6',
+              padding: '0.2rem 0.3rem',
               borderRadius: '0.25rem',
+              fontWeight: '500',
             },
             'code::before': {
               content: '""',
@@ -43,6 +48,11 @@ export default {
             'code::after': {
               content: '""',
             },
+            blockquote: {
+              fontStyle: 'normal',
+              color: '#52525b',
+              borderLeftColor: '#3b82f6', // primary-500
+            }
           },
         },
       },
