@@ -48,16 +48,17 @@ main {
 #articleEditor input:focus,
 #articleEditor textarea:focus {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); /* blue-500 shadow */
+  border-color: #3b82f6; /* blue-500 */
 }
 
 /* 编辑器工具栏样式 */
 #articleEditor .bg-gray-50 {
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  background: #fafafa;
 }
 
 .dark #articleEditor .bg-gray-700 {
-  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  background: #27272a;
 }
 
 /* 预览模式样式 */
@@ -72,17 +73,23 @@ main {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   font-weight: 600;
+  color: #18181b;
+}
+.dark #previewContent h1,
+.dark #previewContent h2,
+.dark #previewContent h3 {
+  color: #f4f4f5;
 }
 
 #previewContent h1 {
   font-size: 1.875rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid #e4e4e7;
   padding-bottom: 0.5rem;
 }
 
 #previewContent h2 {
   font-size: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e4e4e7;
   padding-bottom: 0.25rem;
 }
 
@@ -91,38 +98,43 @@ main {
 }
 
 #previewContent pre {
-  background: #1f2937;
-  color: #f9fafb;
+  background: #18181b;
+  color: #f4f4f5;
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
   margin: 1rem 0;
+  border: 1px solid #27272a;
 }
 
 #previewContent code {
-  background: #f3f4f6;
-  color: #dc2626;
+  background: #f4f4f5;
+  color: #2563eb; /* blue-600 */
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
+  border: 1px solid #e4e4e7;
 }
 
 #previewContent pre code {
   background: transparent;
   color: inherit;
   padding: 0;
+  border: none;
 }
 
 #previewContent blockquote {
-  border-left: 4px solid #3b82f6;
-  background: #eff6ff;
+  border-left: 4px solid #3b82f6; /* blue-500 */
+  background: #eff6ff; /* blue-50 */
   padding: 1rem;
   margin: 1rem 0;
-  border-radius: 0 0.5rem 0.5rem 0;
+  color: #4b5563;
 }
 
 .dark #previewContent blockquote {
-  background: #1e3a8a;
+  background: rgba(30, 58, 138, 0.2); /* blue-900/20 */
+  border-left-color: #2563eb;
+  color: #93c5fd;
 }
 
 /* 编辑器按钮悬停效果 */
@@ -135,15 +147,15 @@ main {
 }
 
 #saveBtn:hover {
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 #cancelEditBtn:hover {
-  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 #generateSuggestionBtn:hover {
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* 编辑建议区域样式 */
@@ -153,29 +165,33 @@ main {
 
 /* 差异对比样式 */
 #diffContent .text-red-600 {
-  background-color: rgba(239, 68, 68, 0.1);
+  background-color: rgba(220, 38, 38, 0.05);
+  color: #991b1b;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
 }
 
 #diffContent .text-green-600 {
-  background-color: rgba(34, 197, 94, 0.1);
+  background-color: rgba(22, 163, 74, 0.05);
+  color: #166534;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
 }
 
 .dark #diffContent .text-red-400 {
-  background-color: rgba(239, 68, 68, 0.2);
+  background-color: rgba(127, 29, 29, 0.2);
+  color: #f87171;
 }
 
 .dark #diffContent .text-green-400 {
-  background-color: rgba(34, 197, 94, 0.2);
+  background-color: rgba(20, 83, 45, 0.2);
+  color: #4ade80;
 }
 
 /* 建议内容区域样式 */
 #suggestionMarkdown {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #fafafa;
+  border: 1px solid #e4e4e7;
   border-radius: 0.5rem;
   padding: 1rem;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
@@ -186,25 +202,27 @@ main {
 }
 
 .dark #suggestionMarkdown {
-  background: #1e293b;
-  border-color: #475569;
-  color: #e2e8f0;
+  background: #18181b;
+  border-color: #27272a;
+  color: #e4e4e7;
 }
 
 /* 建议信息卡片样式 */
 #suggestionInfo {
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  background: #eff6ff; /* blue-50 */
   border-radius: 0.5rem;
   padding: 1rem;
+  border: 1px solid #dbeafe;
 }
 
 .dark #suggestionInfo {
-  background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+  background: #1e3a8a; /* blue-900 */
+  border-color: #1e40af;
 }
 
 /* Footer translucency -> solid when at page bottom */
 .footer-solid { background-color: rgb(255 255 255 / 1) !important; }
-.dark .footer-solid { background-color: rgb(17 24 39 / 1) !important; }
+.dark .footer-solid { background-color: #09090b !important; }
 
 /* Footer peek/slide-in behavior */
 .footer-peek { 
@@ -229,12 +247,12 @@ main {
 /* 防闪烁的基础样式 */
 html {
   background-color: #ffffff;
-  color: #111827;
+  color: #18181b;
 }
 
 html.dark {
-  background-color: #111827;
-  color: #f9fafb;
+  background-color: #09090b; /* Zinc 950 */
+  color: #f4f4f5;
 }
 
 body {
@@ -246,12 +264,12 @@ body {
 @layer base {
   :root {
     --color-background: #ffffff;
-    --color-text: #1f2937; /* gray-800 */
+    --color-text: #18181b;
   }
 
   :root.dark {
-    --color-background: #1f2937; /* gray-800 */
-    --color-text: #f9fafb; /* gray-50 */
+    --color-background: #09090b;
+    --color-text: #f4f4f5;
   }
 
   html {
@@ -266,9 +284,15 @@ body {
   /* 网格背景图案 */
   .bg-grid-pattern {
     background-image: 
-      linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+      linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
     background-size: 20px 20px;
+  }
+  
+  .dark .bg-grid-pattern {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   }
   
   /* 文本截断 */
@@ -283,8 +307,7 @@ body {
 @layer components {
   /* 文章内容整体样式 */
   .prose {
-    @apply text-gray-800 dark:text-gray-200 leading-relaxed;
-    /* 确保文本可以选择和复制 */
+    @apply text-zinc-700 dark:text-zinc-300 leading-relaxed;
     user-select: text;
     -webkit-user-select: text;
     -moz-user-select: text;
@@ -293,28 +316,28 @@ body {
   
   /* 标题样式 */
   .prose h1 {
-    @apply text-3xl font-bold text-gray-900 dark:text-white mt-8 mb-6 pb-3 border-b border-gray-200 dark:border-gray-700;
+    @apply text-3xl font-bold text-zinc-900 dark:text-zinc-50 mt-8 mb-6 pb-3 border-b border-zinc-200 dark:border-zinc-800;
   }
   
   .prose h2 {
-    @apply text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800;
+    @apply text-2xl font-bold text-zinc-900 dark:text-zinc-50 mt-8 mb-4 pb-2 border-b border-zinc-100 dark:border-zinc-800;
   }
   
   .prose h3 {
-    @apply text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3;
+    @apply text-xl font-semibold text-zinc-900 dark:text-zinc-50 mt-6 mb-3;
   }
   
   .prose h4 {
-    @apply text-lg font-semibold text-gray-900 dark:text-white mt-5 mb-2;
+    @apply text-lg font-semibold text-zinc-900 dark:text-zinc-50 mt-5 mb-2;
   }
   
   .prose h5, .prose h6 {
-    @apply text-base font-semibold text-gray-900 dark:text-white mt-4 mb-2;
+    @apply text-base font-semibold text-zinc-900 dark:text-zinc-50 mt-4 mb-2;
   }
   
   /* 段落样式 */
   .prose p {
-    @apply mb-6 leading-7 text-gray-700 dark:text-gray-300;
+    @apply mb-6 leading-7 text-zinc-600 dark:text-zinc-400;
   }
   
   /* 列表样式 */
@@ -323,26 +346,25 @@ body {
   }
   
   .prose li {
-    @apply mb-2 text-gray-700 dark:text-gray-300;
+    @apply mb-2 text-zinc-600 dark:text-zinc-400;
   }
   
   .prose ul li {
-    @apply list-disc;
+    @apply list-disc marker:text-blue-400; /* 调回蓝色 */
   }
   
   .prose ol li {
-    @apply list-decimal;
+    @apply list-decimal marker:text-blue-400; /* 调回蓝色 */
   }
   
-  /* 链接样式 */
+  /* 链接样式 - 使用主色 */
   .prose a {
-    @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium underline decoration-2 underline-offset-2 hover:decoration-blue-800 dark:hover:decoration-blue-300;
+    @apply text-blue-600 dark:text-blue-400 no-underline hover:underline decoration-2 underline-offset-2 transition-colors duration-200 font-medium;
   }
   
   /* 代码块样式 */
   .prose pre {
-    @apply bg-gray-900 dark:bg-gray-800 text-gray-100 rounded-xl p-6 overflow-x-auto mb-6 border border-gray-700 dark:border-gray-600 shadow-lg relative;
-    /* 确保代码块可以选择和复制 */
+    @apply bg-zinc-900 dark:bg-black text-zinc-100 rounded-lg p-6 overflow-x-auto mb-6 border border-zinc-800 dark:border-zinc-800 shadow-sm relative;
     user-select: text;
     -webkit-user-select: text;
     -moz-user-select: text;
@@ -356,26 +378,25 @@ body {
   
   /* 代码块复制按钮 */
   .code-copy-btn {
-    @apply absolute top-3 right-3 p-2 bg-gray-800 dark:bg-gray-700 text-gray-300 dark:text-gray-400 hover:text-white hover:bg-gray-700 dark:hover:bg-gray-600 rounded-md text-sm font-medium transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer border border-gray-600 dark:border-gray-500;
+    @apply absolute top-3 right-3 p-2 bg-zinc-800 dark:bg-zinc-900 text-zinc-400 hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 rounded-md text-sm font-medium transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer border border-zinc-700 dark:border-zinc-800;
     z-index: 10;
   }
   
   .code-copy-btn:hover {
-    @apply shadow-md;
+    @apply shadow-sm;
   }
   
   .code-copy-btn.copied {
-    @apply text-green-400 bg-green-900/20 border-green-600;
+    @apply text-green-400 bg-zinc-800 border-green-900;
   }
   
-  /* 代码块悬停时显示复制按钮 */
   .code-block-wrapper:hover .code-copy-btn {
     @apply opacity-100;
   }
   
+  /* 行内代码样式 */
   .prose code {
-    @apply bg-gray-100 dark:bg-gray-800 text-red-600 dark:text-red-400 px-2 py-1 rounded-md text-sm font-mono font-medium border border-gray-200 dark:border-gray-700;
-    /* 确保行内代码可以选择和复制 */
+    @apply bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded text-sm font-mono font-medium border border-blue-100 dark:border-blue-800/50;
     user-select: text;
     -webkit-user-select: text;
     -moz-user-select: text;
@@ -383,17 +404,16 @@ body {
   }
   
   .prose pre code {
-    @apply bg-transparent text-gray-100 p-0 border-none text-sm;
-    /* 确保代码块内的代码可以选择和复制 */
+    @apply bg-transparent text-zinc-100 p-0 border-none text-sm;
     user-select: text;
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
   }
   
-  /* 引用样式 */
+  /* 引用样式 - 使用蓝色 */
   .prose blockquote {
-    @apply border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 pl-6 py-4 italic text-gray-700 dark:text-gray-300 rounded-r-lg mb-6 shadow-sm;
+    @apply border-l-4 border-blue-500 bg-blue-50/50 dark:bg-blue-900/10 pl-6 py-4 italic text-zinc-700 dark:text-zinc-300 rounded-r-lg mb-6;
   }
   
   .prose blockquote p {
@@ -402,39 +422,39 @@ body {
   
   /* 表格样式 */
   .prose table {
-    @apply border-collapse border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden mb-6 shadow-sm;
+    @apply border-collapse border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden mb-6 w-full text-sm;
   }
   
   .prose th,
   .prose td {
-    @apply border border-gray-300 dark:border-gray-600 px-4 py-3 text-left;
+    @apply border border-zinc-200 dark:border-zinc-800 px-4 py-3 text-left;
   }
   
   .prose th {
-    @apply bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-white;
+    @apply bg-zinc-50 dark:bg-zinc-900 font-semibold text-zinc-900 dark:text-zinc-100;
   }
   
   .prose td {
-    @apply text-gray-700 dark:text-gray-300;
+    @apply text-zinc-600 dark:text-zinc-400;
   }
   
   /* 图片样式 */
   .prose img {
-    @apply rounded-lg shadow-md mb-6 mx-auto;
+    @apply rounded-lg border border-zinc-100 dark:border-zinc-800 mb-6 mx-auto;
   }
   
   /* 分割线样式 */
   .prose hr {
-    @apply border-gray-300 dark:border-gray-600 my-8;
+    @apply border-zinc-200 dark:border-zinc-800 my-12;
   }
   
   /* 强调样式 */
   .prose strong {
-    @apply font-semibold text-gray-900 dark:text-white;
+    @apply font-semibold text-zinc-900 dark:text-zinc-100;
   }
   
   .prose em {
-    @apply italic text-gray-700 dark:text-gray-300;
+    @apply italic text-zinc-600 dark:text-zinc-400;
   }
 }
 
@@ -443,26 +463,25 @@ body {
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
 
-/* 确保 html 元素也有过渡效果 */
 html {
   transition: background-color 0.15s ease-in-out;
 }
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  @apply bg-zinc-300 dark:bg-zinc-700 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  @apply bg-zinc-400 dark:bg-zinc-600;
 }
 
 /* 漂浮目录导航样式 */
@@ -470,9 +489,9 @@ html {
   @apply fixed right-4 top-32 z-40;
 }
 
-/* 目录切换按钮 */
+/* 目录切换按钮 - 调为蓝色 */
 .toc-toggle {
-  @apply w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110;
+  @apply w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg shadow-blue-200 dark:shadow-blue-900/20 flex items-center justify-center transition-all duration-300 hover:scale-105;
 }
 
 .toc-toggle:hover {
@@ -481,7 +500,7 @@ html {
 
 /* 目录面板 */
 .toc-panel {
-  @apply fixed right-4 top-32 w-80 max-h-[70vh] bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl transform translate-x-full opacity-0 transition-all duration-300 pointer-events-none;
+  @apply fixed right-4 top-32 w-80 max-h-[70vh] bg-white dark:bg-zinc-900/95 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-2xl transform translate-x-full opacity-0 transition-all duration-300 pointer-events-auto;
 }
 
 .toc-panel.active {
@@ -490,15 +509,15 @@ html {
 
 /* 目录头部 */
 .toc-header {
-  @apply flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700;
+  @apply flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800;
 }
 
 .toc-title {
-  @apply text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2;
+  @apply text-sm font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2 uppercase tracking-wide;
 }
 
 .toc-close {
-  @apply p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors;
+  @apply p-1 text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-colors;
 }
 
 /* 目录内容 */
@@ -517,14 +536,13 @@ html {
 }
 
 .toc-content::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  @apply bg-zinc-200 dark:bg-zinc-700 rounded-full;
 }
 
 .toc-content::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  @apply bg-zinc-300 dark:bg-zinc-600;
 }
 
-/* 响应式：小屏幕上调整位置 */
 @media (max-width: 1280px) {
   .floating-toc {
     @apply right-2 top-24;

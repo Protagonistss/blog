@@ -1,21 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const tools: Array<{
+// 定义工具类型，包含颜色主题
+type ToolColorTheme = 'blue' | 'emerald' | 'indigo' | 'orange' | 'rose' | 'amber' | 'cyan';
+
+interface Tool {
   id: string;
   title: string;
   description: string;
   icon: string;
-  color: string;
+  color: ToolColorTheme;
   href: string;
   status: 'available' | 'coming-soon';
-}> = [
+}
+
+const tools: Array<Tool> = [
   {
     id: 'json-formatter',
     title: 'JSON 格式化工具',
     description: '在线格式化、压缩和验证 JSON 数据，支持语法高亮和错误提示',
     icon: '📊',
-    color: 'from-blue-500 to-cyan-500',
+    color: 'blue',
     href: '/tools/json-formatter',
     status: 'available'
   },
@@ -24,7 +29,7 @@ const tools: Array<{
     title: '技术问答',
     description: '技术问题交流与解答平台',
     icon: '💬',
-    color: 'from-green-500 to-blue-500',
+    color: 'emerald',
     href: '/tools/qa',
     status: 'available'
   },
@@ -33,7 +38,7 @@ const tools: Array<{
     title: 'bcrypt 加密 / 时间戳转换',
     description: '本地进行 bcrypt 哈希与日期时间/时间戳互转，安全可靠',
     icon: '⛏️',
-    color: 'from-purple-500 to-blue-500',
+    color: 'indigo',
     href: '/tools/bcrypt-timestamp',
     status: 'available'
   },
@@ -42,7 +47,7 @@ const tools: Array<{
     title: 'Base64 编解码',
     description: '在线 Base64 编码和解码工具，支持文本和文件处理',
     icon: '🔐',
-    color: 'from-purple-500 to-pink-500',
+    color: 'rose',
     href: '#',
     status: 'coming-soon'
   },
@@ -51,7 +56,7 @@ const tools: Array<{
     title: 'URL 编解码',
     description: 'URL 编码和解码工具，处理特殊字符和中文编码问题',
     icon: '🔗',
-    color: 'from-orange-500 to-red-500',
+    color: 'orange',
     href: '#',
     status: 'coming-soon'
   },
@@ -60,7 +65,7 @@ const tools: Array<{
     title: '颜色选择器',
     description: '在线颜色选择工具，支持 HEX、RGB、HSL 格式转换',
     icon: '🎨',
-    color: 'from-pink-500 to-rose-500',
+    color: 'cyan',
     href: '#',
     status: 'coming-soon'
   },
@@ -69,169 +74,171 @@ const tools: Array<{
     title: '正则表达式测试',
     description: '在线正则表达式测试工具，支持实时匹配和替换功能',
     icon: '🔍',
-    color: 'from-indigo-500 to-purple-500',
+    color: 'amber',
     href: '#',
     status: 'coming-soon'
   }
 ];
+
+// 获取颜色类的辅助函数
+function getColorClasses(theme: ToolColorTheme) {
+  const colors = {
+    blue: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-600 dark:text-blue-400', border: 'hover:border-blue-400 dark:hover:border-blue-600' },
+    emerald: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-600 dark:text-emerald-400', border: 'hover:border-emerald-400 dark:hover:border-emerald-600' },
+    indigo: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-600 dark:text-indigo-400', border: 'hover:border-indigo-400 dark:hover:border-indigo-600' },
+    orange: { bg: 'bg-orange-100 dark:bg-orange-900/30', text: 'text-orange-600 dark:text-orange-400', border: 'hover:border-orange-400 dark:hover:border-orange-600' },
+    rose: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-600 dark:text-rose-400', border: 'hover:border-rose-400 dark:hover:border-rose-600' },
+    amber: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-600 dark:text-amber-400', border: 'hover:border-amber-400 dark:hover:border-amber-600' },
+    cyan: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-600 dark:text-cyan-400', border: 'hover:border-cyan-400 dark:hover:border-cyan-600' },
+  };
+  return colors[theme];
+}
 ---
 
 <Layout title="在线工具" description="专业的在线工具集合，包含 JSON 格式化、技术问答等功能">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- 页面头部 -->
-    <header class="text-center mb-12">
-      <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-6">
-        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        在线工具
+    <header class="text-center mb-16">
+      <div class="inline-flex items-center px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-100 dark:border-indigo-800/50">
+        Developer Tools
       </div>
-      <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent mb-4">
-        在线工具
+      <h1 class="text-4xl font-extrabold text-zinc-900 dark:text-zinc-50 mb-6 tracking-tight">
+        在线工具箱
       </h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-        专业的在线工具集合，包含 JSON 格式化、技术问答等功能
+      <p class="text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto">
+        纯前端处理，安全、高效、无需安装。
       </p>
     </header>
 
     <!-- 工具筛选 -->
-    <div class="mb-8">
+    <div class="mb-12">
       <div class="flex flex-wrap gap-2 justify-center">
         <button 
           id="filter-all" 
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm filter-btn active"
+          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm filter-btn active shadow-sm shadow-indigo-200 dark:shadow-none"
         >
           全部工具
         </button>
         <button 
           id="filter-available" 
-          class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium text-sm filter-btn"
+          class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors font-medium text-sm filter-btn"
         >
           可用工具
         </button>
         <button 
           id="filter-coming-soon" 
-          class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium text-sm filter-btn"
+          class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors font-medium text-sm filter-btn"
         >
-          即将推出
+          开发中
         </button>
       </div>
     </div>
 
     <!-- 工具网格 -->
-    <div id="tools-grid" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto items-stretch">
-      {tools.map((tool) => 
-        tool.status === 'available' ? (
+    <div id="tools-grid" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
+      {tools.map((tool) => {
+        const theme = getColorClasses(tool.color);
+        return tool.status === 'available' ? (
           <a href={tool.href} class="block h-full" data-status={tool.status}>
             <div 
-              class="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 dark:hover:shadow-blue-400/20 hover:-translate-y-1 cursor-pointer h-full flex flex-col"
+              class={`group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 transition-all duration-300 hover:shadow-lg ${theme.border} hover:-translate-y-1 cursor-pointer h-full flex flex-col`}
             >
               <!-- 工具图标和标题 -->
-              <div class="flex items-center gap-4 mb-4">
-                <div class={`w-12 h-12 bg-gradient-to-br ${tool.color} rounded-xl flex items-center justify-center text-2xl font-bold text-white shadow-lg group-hover:scale-110 transition-transform`}>
+              <div class="flex items-center gap-4 mb-5">
+                <div class={`w-12 h-12 ${theme.bg} rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform`}>
                   {tool.icon}
                 </div>
                 <div class="flex-1">
-                  <div class="flex items-center gap-2">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {tool.title}
-                    </h3>
-                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-md text-xs font-medium">
-                      可用
-                    </span>
-                  </div>
+                  <h3 class="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {tool.title}
+                  </h3>
+                  <span class="inline-block mt-1 px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 rounded text-xs font-bold uppercase tracking-wider">
+                    Available
+                  </span>
                 </div>
               </div>
               
               <!-- 工具描述 -->
-              <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+              <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-6 line-clamp-2 flex-1 leading-relaxed">
                 {tool.description}
               </p>
               
-              
               <!-- 使用按钮 -->
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-500 dark:text-gray-400">
-                  点击使用
+              <div class="flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-4">
+                <span class={`text-xs font-bold uppercase tracking-wider ${theme.text}`}>
+                  Start Using
                 </span>
-                <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <svg class={`w-4 h-4 ${theme.text}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                 </svg>
               </div>
             </div>
           </a>
         ) : (
           <div 
-            class="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300 opacity-75 cursor-not-allowed h-full flex flex-col"
+            class="group bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 opacity-75 cursor-not-allowed h-full flex flex-col grayscale transition-all duration-300 hover:grayscale-0 hover:opacity-100"
             data-status={tool.status}
           >
             <!-- 工具图标和标题 -->
-            <div class="flex items-center gap-4 mb-4">
-              <div class={`w-12 h-12 bg-gradient-to-br ${tool.color} rounded-xl flex items-center justify-center text-2xl font-bold text-white shadow-lg group-hover:scale-110 transition-transform`}>
+            <div class="flex items-center gap-4 mb-5">
+              <div class={`w-12 h-12 bg-zinc-200 dark:bg-zinc-800 rounded-xl flex items-center justify-center text-2xl`}>
                 {tool.icon}
               </div>
               <div class="flex-1">
-                <div class="flex items-center gap-2">
-                  <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {tool.title}
-                  </h3>
-                  <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-md text-xs font-medium">
-                    即将推出
-                  </span>
-                </div>
+                <h3 class="text-lg font-bold text-zinc-500 dark:text-zinc-400">
+                  {tool.title}
+                </h3>
+                <span class="inline-block mt-1 px-2 py-0.5 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-500 rounded text-xs font-bold uppercase tracking-wider">
+                  Coming Soon
+                </span>
               </div>
             </div>
             
             <!-- 工具描述 -->
-            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+            <p class="text-zinc-400 dark:text-zinc-500 text-sm mb-6 line-clamp-2 flex-1 leading-relaxed">
               {tool.description}
             </p>
             
-            
-            <!-- 使用按钮 -->
-            <div class="flex items-center justify-between">
-              <span class="text-sm text-gray-400 dark:text-gray-500">
-                敬请期待
-              </span>
-              <svg class="w-5 h-5 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+            <!-- 占位符 -->
+            <div class="flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
+               <span class="text-xs font-bold uppercase tracking-wider text-zinc-400">
+                  In Development
+                </span>
             </div>
           </div>
         )
-      )}
+      })}
     </div>
 
-    <!-- 功能特色 -->
-    <div class="mt-12 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">为什么选择我们的工具？</h2>
-      <div class="grid gap-6 md:grid-cols-3">
-        <div class="text-center">
-          <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- 功能特色 - 极简版 -->
+    <div class="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-16">
+      <div class="grid gap-12 md:grid-cols-3 text-center">
+        <div>
+          <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">快速高效</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400">无需安装，打开即用，处理速度快</p>
+          <h3 class="font-bold text-zinc-900 dark:text-white mb-2">快速高效</h3>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">无需安装，WebAssembly 加持，秒级处理</p>
         </div>
-        <div class="text-center">
-          <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div>
+          <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">安全可靠</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400">本地处理，数据不会上传到服务器</p>
+          <h3 class="font-bold text-zinc-900 dark:text-white mb-2">隐私安全</h3>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">所有数据仅在浏览器本地处理，绝不上传</p>
         </div>
-        <div class="text-center">
-          <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div>
+          <div class="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
             </svg>
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">简单易用</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400">界面简洁，操作简单，新手也能快速上手</p>
+          <h3 class="font-bold text-zinc-900 dark:text-white mb-2">简单易用</h3>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">专注于核心功能，无广告，无干扰</p>
         </div>
       </div>
     </div>
@@ -247,12 +254,12 @@ const tools: Array<{
         button.addEventListener('click', function(this: HTMLElement) {
           // 更新按钮状态
           filterButtons.forEach(btn => {
-            btn.classList.remove('active', 'bg-blue-600', 'text-white');
-            btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+            btn.classList.remove('active', 'bg-indigo-600', 'text-white', 'shadow-sm', 'shadow-indigo-200');
+            btn.classList.add('bg-zinc-100', 'dark:bg-zinc-800', 'text-zinc-600', 'dark:text-zinc-400');
           });
           
-          this.classList.add('active', 'bg-blue-600', 'text-white');
-          this.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+          this.classList.add('active', 'bg-indigo-600', 'text-white', 'shadow-sm', 'shadow-indigo-200');
+          this.classList.remove('bg-zinc-100', 'dark:bg-zinc-800', 'text-zinc-600', 'dark:text-zinc-400');
           
           // 筛选工具卡片
           const filter = this.id.replace('filter-', '');

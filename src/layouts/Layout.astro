@@ -50,19 +50,19 @@ const siteDescription = "不迁怒，不二过。";
     <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
       <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
-          <a href="/" class="flex items-center gap-3 text-2xl font-bold text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors group">
-            <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-yellow-400/30 transition-all duration-300">
-              <svg class="w-6 h-6 text-white animate-pulse" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="text-xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-indigo-600 dark:from-white dark:via-blue-400 dark:to-indigo-400 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-300 dark:group-hover:to-indigo-300 transition-all duration-300">
-                {siteTitle}
+            <a href="/" class="group flex items-center gap-3">
+              <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-yellow-400/30 transition-all duration-300">
+                <span class="text-2xl">⚡</span>
               </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 font-normal group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors duration-300">技术博客</div>
-            </div>
-          </a>
+              <div class="flex flex-col">
+                <div class="text-xl font-bold text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                  Protagonist
+                </div>
+                <div class="text-xs text-zinc-500 dark:text-zinc-400 font-medium tracking-wide">
+                  TECH BLOG
+                </div>
+              </div>
+            </a>
           
           <!-- 桌面端导航 -->
           <div class="hidden md:flex items-center space-x-8">

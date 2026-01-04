@@ -1,67 +1,50 @@
 ---
-// Q&A 组件，用于显示热门问题和快速访问问答功能
 ---
-
-<div class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 dark:from-green-900/20 dark:via-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 mb-8">
-  <div class="flex items-center gap-3 mb-4">
-    <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold">
-      💬
+<div class="bg-indigo-50 dark:bg-indigo-900/10 rounded-2xl p-6 mb-8 border border-indigo-100 dark:border-indigo-800/30">
+  <div class="flex items-center gap-4 mb-4">
+    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-200 dark:shadow-none">
+      QA
     </div>
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white">技术问答</h2>
+    <div>
+      <h3 class="font-bold text-zinc-900 dark:text-white">有技术问题？</h3>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">在问答区提问，获取解答</p>
+    </div>
   </div>
   
-  <p class="text-gray-600 dark:text-gray-400 mb-4">
-    遇到技术问题？在问答平台与社区成员交流学习，获得专业解答
+  <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed">
+    无论是在学习过程中遇到的困惑，还是项目中遇到的技术难题，都可以在这里提问。
   </p>
   
-  <!-- 快速问题分类 -->
-  <div class="flex flex-wrap gap-2 mb-4">
-    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-md text-xs font-medium">
-      #JavaScript
-    </span>
-    <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-md text-xs font-medium">
-      #Vue
-    </span>
-    <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-md text-xs font-medium">
-      #React
-    </span>
-    <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-md text-xs font-medium">
-      #Node.js
-    </span>
-    <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-md text-xs font-medium">
-      #Python
-    </span>
-    <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-md text-xs font-medium">
-      #Rust
-    </span>
+  <div class="space-y-3 mb-6">
+    <div class="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+      <span>详细的问题描述</span>
+    </div>
+    <div class="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+      <span>代码片段或截图</span>
+    </div>
+    <div class="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+      <span>尝试过的解决方案</span>
+    </div>
   </div>
-  
-  <!-- 操作按钮 -->
-  <div class="flex gap-3">
+
+  <div class="flex flex-col gap-3">
     <a 
       href="/tools/qa" 
-      class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg hover:from-green-600 hover:to-blue-600 transition-all duration-200 font-medium text-sm"
+      class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5"
     >
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
-      进入问答区
+      我要提问
     </a>
     <a 
-      href="/tools/qa#giscus-comments" 
-      class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium text-sm"
+      href="/tools/qa" 
+      class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all duration-200 font-medium text-sm"
     >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
-      查看问题
+      浏览问题
     </a>
-  </div>
-  
-  <!-- 使用提示 -->
-  <div class="mt-4 p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-    <p class="text-xs text-gray-600 dark:text-gray-400">
-      💡 <strong>提示：</strong>使用 GitHub 账号登录后即可参与问答讨论，支持 Markdown 格式和代码高亮
-    </p>
   </div>
 </div>
